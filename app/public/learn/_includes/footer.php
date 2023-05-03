@@ -1,4 +1,6 @@
 <hr>
 <footer>
-    En sidfot...
+    
+    <?= render_copyright() ?>
+
 </footer>

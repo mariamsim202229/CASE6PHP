@@ -1,5 +1,7 @@
 <?php
 
+include "_includes/global-functions.php";
+
 $title = "Strängar - string";
 
 ?>

@@ -2,6 +2,8 @@
 // strict_types i php kan användas för att skapa bättre kodkvalité validering av datatyper
 declare(strict_types=1);
 
+include "_includes/global-functions.php";
+
 $title = "Funktioner";
 
 ?>
