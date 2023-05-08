@@ -243,3 +243,28 @@ RUN docker-php-ext-install pdo pdo_mysql
 ```
 
 Med förändringar som görs i en Docker-miljö bör miljön byggas om.
+
+
+För att få tillgång till databasen anges programinstruktioner. Så här kan en sådan koppling se ut:
+
+```php
+$servername = "mysql";
+$database = "db_learn";
+$username = "db_user";
+$password = "db_password";
+
+$dsn = "mysql:host=$servername;dbname=$database";
+
+try {
+    $pdo = new PDO($dsn, $username, $password);
+
+    // set the PDO error mode to exception
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    echo "Connected successfully";
+} catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+}
+```
+
+Instruktionen kan sparas som en fil som inkluderas i applikationen.
