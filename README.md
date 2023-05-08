@@ -179,3 +179,67 @@ Navigera till http://localhost:8088/learn/ så visas en tom lista.
 
 
 Därmed är vi redo för att se mer hur man kodar PHP.
+
+---
+
+## Databas
+
+För att kunna spara information i utvecklingsmiljön kan en relationsdatabas som MySQL eller MariaDB användas. En databas är en strukturerad samling av data som organiserats för att möjliggöra effektiv lagring, hantering och åtkomst av information.
+
+En relationsdatabas använder `SQL`, ett språk som möjliggör hantering av information som lagras i database. Språket har nyckelord som *SELECT*, *INSERT*, *UPDATE* och *DELETE*. En applikation som är användbar för att hantera databasen är *phpMyAdmin*.
+
+Så här kan Docker-miljöns inställningar anges (se förändringar med start från **mysql**):
+
+
+```yml
+version: '3'
+services:
+    php-apache:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - ./app/public:/var/www/html
+            - ./configs/custom-apache2.conf:/etc/apache2/apache2.conf
+            - ./configs/custom-php.ini:/usr/local/etc/php/php.ini
+        ports:
+            - "8088:80"
+    mysql:
+        image: mariadb:latest
+        environment:
+            MYSQL_ROOT_PASSWORD: 'db_root_password'
+            MYSQL_USER: 'db_user'
+            MYSQL_PASSWORD: 'db_password'
+            MYSQL_DATABASE: 'db_learn'
+        volumes:
+            - mysqldata:/var/lib/mysql
+        ports:
+            - 33061:3306
+        
+    # phpMyAdmin https://www.phpmyadmin.net/
+    phpmyadmin:
+        image: phpmyadmin
+        restart: always
+        ports:
+            - 8089:80
+        environment:
+            - PMA_ARBITRARY=1
+        depends_on:
+            - mysql
+volumes:
+    mysqldata: {}     
+```
+
+I en PHP applikation kan olika gränssnitt användas för att kommunicera med databasen. Ett sådant gränssnitt är PDO - *PHP Data Object*. För att använda PDO läggs en ny installationsinstruktion till `Dockerfile` (se sista raden):
+
+
+```yml
+# PHP version 7|8
+# FROM php:8.0-apache
+FROM php:7.4-apache
+RUN a2enmod rewrite
+RUN service apache2 restart
+RUN docker-php-ext-install pdo pdo_mysql
+```
+
+Med förändringar som görs i en Docker-miljö bör miljön byggas om.
