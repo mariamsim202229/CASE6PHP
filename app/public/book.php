@@ -92,8 +92,8 @@ $rows = $result->fetchAll();
     include "_includes/header.php";
     ?>
     <style>
-<?php include 'styles/style.css'; ?>
-</style>
+        <?php include 'styles/style.css'; ?>
+    </style>
 
     <h1>
         <?= $title ?>
@@ -112,12 +112,12 @@ $rows = $result->fetchAll();
             <label for="book_title">Book title</label>
             <input type="text" name="book_title" id="book_title" required minlength="2" maxlength="25">
         </p>
-<hr>
+        <hr>
         <p>
             <label for="author">Author</label>
             <input type="text" name="author" id="author">
         </p>
-<hr>
+        <hr>
 
         <p>
             <label for="year_published"> Year published</label>
@@ -129,12 +129,12 @@ $rows = $result->fetchAll();
             <label for="review">Review</label>
             <input type="text" name="review" id="review">
         </p>
-<hr>
+        <hr>
         <p>
             <label for="created_at">created at</label>
             <input type="datetime-local" name="created_at" id="created_at">
         </p>
-<hr>
+        <hr>
         <p>
             <label for="user_id">user id</label>
 

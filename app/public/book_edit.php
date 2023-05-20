@@ -8,12 +8,12 @@ include "_includes/database-connection.php";
 $title = "Min sida";
 
 // förbered variabler som används i formuläret
-$book_id= "";
-$book_title= "";
-$author="";
-$year_published="";
-$review="";
-$created_at="";
+$book_id = "";
+$book_title = "";
+$author = "";
+$year_published = "";
+$review = "";
+$created_at = "";
 // $user_id?"" ;
 
 $row = "";
@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 <html lang="en">
 
 <head>
-   
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -114,9 +114,9 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 
     ?>
 
-<style>
-<?php include 'styles/style.css'; ?>
-</style>
+    <style>
+        <?php include 'styles/style.css'; ?>
+    </style>
 
     <h1>
         <?= $title ?>
@@ -132,41 +132,42 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 
             <p>
                 <label for="book_id">Book id</label>
-                <input type="text" name="book_id" id="book_id" value="<?= $book_id ?>" required minlength="2" maxlength="25">
+                <input type="text" name="book_id" id="book_id" value="<?= $book_id ?>" required minlength="2"
+                    maxlength="25">
                 <!-- skicka med fågelns id som finns sparad i databasen - använd ett dolt input fält -->
                 <input type="hidden" name="id" value="<?= $row['id'] ?>">
             </p>
 
             <p>
-            <label for="book_title">Book title</label>
-            <input type="text" name="book_title" id="book_title" required minlength="2" maxlength="25">
-        </p>
+                <label for="book_title">Book title</label>
+                <input type="text" name="book_title" id="book_title" required minlength="2" maxlength="25">
+            </p>
 
-        <p>
-            <label for="author">Author</label>
-            <input type="text" name="author" id="author">
-        </p>
+            <p>
+                <label for="author">Author</label>
+                <input type="text" name="author" id="author">
+            </p>
 
 
-        <p>
-            <label for="year_published"> Year published</label>
-            <input type="date" name="year_published" id="year_published">
-        </p>
+            <p>
+                <label for="year_published"> Year published</label>
+                <input type="date" name="year_published" id="year_published">
+            </p>
 
-        <p>
-            <label for="review">Review</label>
-            <input type="text" name="review" id="review">
-        </p>
+            <p>
+                <label for="review">Review</label>
+                <input type="text" name="review" id="review">
+            </p>
 
-        <p>
-            <label for="created_at">created at</label>
-            <input type="datetime-local" name="created_at" id="created_at">
-        </p>
+            <p>
+                <label for="created_at">created at</label>
+                <input type="datetime-local" name="created_at" id="created_at">
+            </p>
 
-        <p>
-            <label for="user_id">user id</label>
+            <p>
+                <label for="user_id">user id</label>
 
-        </p>
+            </p>
 
             <p>
                 <input type="submit" value="Uppdatera">
