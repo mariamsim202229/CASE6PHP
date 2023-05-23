@@ -18,6 +18,7 @@ try {
     setup_book($pdo);
     setup_user($pdo);
 
+
     // echo "Connected successfully";
 } catch (PDOException $e) {
     // echo "Connection failed: " . $e->getMessage();
@@ -26,21 +27,21 @@ try {
 
 // funktion för att skapa tabellen bookReview
 function setup_book($pdo)
+
 {
 
-    $sql = "CREATE TABLE IF NOT EXISTS `BookReview1` (
-`book_id` int(11) NOT NULL,
- `book_title` text NOT NULL,
- `author` text NOT NULL,
- `year_published` date NOT NULL,
- `review` text NOT NULL,
- `created_at` date NOT NULL,
- UNIQUE KEY `id_book` (`book_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
+    $sql = "CREATE TABLE IF NOT EXISTS `book` (
+        `book_id` int(11) NOT NULL AUTO_INCREMENT,
+        `title` varchar(255) NOT NULL,
+        `author` varchar(255) NOT NULL,
+        `year_published` year(4) NOT NULL,
+        `review` text NOT NULL,
+        `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+        `user_id` int(11) NOT NULL DEFAULT uuid(),
+        PRIMARY KEY (`book_id`)
+       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
 
-    $pdo->exec($sql);
-
-}
+    $pdo->exec($sql); }
 
 
 // funktion för att skapa tabellen user
@@ -48,13 +49,12 @@ function setup_book($pdo)
 function setup_user($pdo)
 {
 
-    $sql = "CREATE TABLE `User` (
-        `Id` int(11) NOT NULL,
-        `username` text NOT NULL,
-        `password` text NOT NULL,
-        UNIQUE KEY `Id` (`Id`),
-        UNIQUE KEY `username` (`username`) USING HASH
-       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
+    $sql = "CREATE TABLE IF NOT EXISTS `user` (
+        `user_id` int(11) NOT NULL AUTO_INCREMENT,
+        `username` varchar(255) NOT NULL,
+        `password` varchar(255) NOT NULL,
+        PRIMARY KEY (`user_id`)
+       ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
 
     $pdo->exec($sql);
 }

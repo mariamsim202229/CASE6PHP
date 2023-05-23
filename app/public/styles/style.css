@@ -4,10 +4,13 @@
 }
 
 header {
-    background-color: darkseagreen;
+    background-color: pink;
     font-size: 20px;
     font-family: fantasy;
-    margin-left: 50px;
+    margin-left: 100px;
+    border: 1px;
+    width: fit-content;
+    color: mediumpurple;
 }
 
 footer {
@@ -22,22 +25,27 @@ body {
 }
 
 label {
-    background-color: darkseagreen;
+    background-color: orchid;
+    border: 2px solid;
+    border-radius: 10px;
     font-size: 28px;
     font-family: fantasy;
-    margin-left: 50px;
-    padding: 12px;
+    margin-left: 15%;
+    width: 100px;
+    padding: 5px;
+    height: fit-content;
 }
 
 input {
-    padding: 10px;
     border-radius: 20px;
-    background-color: lightcoral;
+    background-color: pink;
     width: 300px;
+    margin-left: 15%;
+    height: 30px;
 }
 
 nav {
-    font-size: 23px;
+    font-size: 25px;
     font-family: fantasy;
 }
 
@@ -45,3 +53,53 @@ hr {
     background-color: darkkhaki;
     border: 2px;
 }
+
+.button {
+    background-color: darkseagreen;
+    font-size: 28px;
+    font-family: fantasy;
+    height: fit-content;
+    width: 150px;
+    padding: 5px;
+
+}
+
+.button1 {
+    background-color: tomato;
+    font-size: 28px;
+    font-family: fantasy;
+    height: fit-content;
+    width: 150px;
+    padding: 5px;
+
+}
+
+h1 {
+    font-family: fantasy;
+    margin-left: 20%;
+    color: purple;
+    background-color: pink;
+    background-size: auto;
+    width: 250px;
+    font-style: italic;
+    font-size: 30px;
+}
+
+
+textarea {
+    background-color: pink;
+    margin-left: 15%;
+    border-radius: 20px;
+    width: 300px;
+}
+
+
+table {border: 2px solid; font-size: larger; background-color: pink;}
+
+ td {border: 1px solid;}
+
+
+ tr {font-family: fantasy; border-right: 1px solid;}
+
+
+  .button3 {font-size: larger; font-family: fantasy; background-color: burlywood; width: 150px;font-style: oblique;}

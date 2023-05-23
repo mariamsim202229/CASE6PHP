@@ -1,7 +1,7 @@
 <?php
 
 // en variabel i php inleds med dollartecken
-$title = "Case-6-PHP";
+$Title = "Case-6-PHP";
 
 ?>
 
@@ -14,7 +14,7 @@ $title = "Case-6-PHP";
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <?php echo $title; ?>
+        <?php echo $Title; ?>
     </title>
 </head>
 
