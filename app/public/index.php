@@ -25,6 +25,7 @@ $Title = "Case-6-PHP";
     </style>
     <h1>
         <?php echo "CASE 6"; ?>
+
     </h1>
 
     <a href="book.php">Book Review</a>

@@ -15,13 +15,13 @@ try {
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
 
-    setup_book($pdo);
-    setup_user($pdo);
+    // setup_book($pdo);
+    // setup_user($pdo);
 
 
-    // echo "Connected successfully";
+    echo "Connected successfully";
 } catch (PDOException $e) {
-    // echo "Connection failed: " . $e->getMessage();
+    echo "Connection failed: " . $e->getMessage();
 }
 
 

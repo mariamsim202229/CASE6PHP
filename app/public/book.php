@@ -6,8 +6,10 @@ session_start();
 include "_includes/database-connection.php";
 include "_includes/global-functions.php";
 
+setup_book($pdo);
+
 // Variables in php start with dollar sign
-$title = "BOOK REVIEW";
+$Title = "BOOK REVIEW";
 
 // Preparing variables that will be used in the form
 
@@ -16,8 +18,10 @@ $title = "";
 $author = "";
 $year_published = "";
 $review = "";
-$created_at = "";
+$created_at = date('Y-m-d H:i:s');
 $user_id = 0;
+
+
 
 // make a POST request
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
@@ -27,35 +31,32 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     // global array $_POST innehåller olika fält som finns i formuläret
     print_r2($_POST);
 
-    // $book_id = trim($_POST['book']); 
+    // $title = trim($_POST['title']);
 
-
-    $book_id = 0;
-    $title = $_POST['title'];
-    $author = $_POST['author'];
-    $year_published = $_POST['year_published'];
-    $review = $_POST['review'];
-    $created_at = date('2023-05-23 15:04:50'); // Use the current datetime
-    $user_id = 0;
-    
+    // $book_id = $_POST['book_id'];
+    // $title = $_POST['title'];
+    // $author = $_POST['author'];
+    // $year_published = $_POST['year_published'];
+    // $review = $_POST['review'];
+    // $created_at = date('Y-m-d H:i:s'); // Use the current datetime
+    // $user_id = 7;
 
     // kontrollera att minst 2 tecken finns i fältet för book_id
     if (strlen($title) >= 2) {
 
         // spara till databasen
-        $sql = "INSERT INTO book (book_id, title, author, year_published, review, created_at, user_id) VALUES ('$book_id', '$title', '$author', '$year_published', '$review', '$created_at', '$user_id')";
+        $sql = "INSERT INTO book (title, author, year_published, review, created_at, user_id) VALUES ('$title', '$author', '$year_published', '$review', '$created_at', '$user_id')";
         print_r2($sql);
 
         // använd databaskopplingen för att spara till tabellen i databasen
         $pdo->exec($sql);
     }
-
 }
 
-setup_book($pdo);
 
-// visa eventuella fåglar som finns i tabellen
-$sql = "SELECT * FROM book";
+// visa eventuella böcker som finns i tabellen
+// $sql = "SELECT * FROM book";
+$sql = "SELECT book.book_id, book.title, book.author, book.year_published, book.review, book.created_at, user.username FROM book JOIN user ON book.user_id = user.user_id";
 
 // använd databaskopplingen för att hämta data
 $result = $pdo->prepare($sql);
@@ -64,12 +65,39 @@ $rows = $result->fetchAll();
 
 ?>
 
+<section>
+
+        <?php
+        foreach ($rows as $row) {
+            $book_id = $row['book_id'];
+            $title = $row['title'];
+            $author = $row['author'];
+            $year_published = $row['year_published'];
+            $review = $row['review'];
+            $created_at = $row['created_at'];
+            // $user_id = $row['user_id'];
+            echo "<div>";
+            // echo "<a href=\"bird_edit.php?id=$id\">";
+            if (isset($_SESSION['user_id'])) {
+                echo '<a href="book_edit.php?id=' . $row['title'] . '">';
+            }
+            // echo $row['title'] . ", " . $row['username'];
+        
+            if (isset($_SESSION['user_id'])) {
+                echo "</a>";
+            }
+            echo "</div>";
+        }
+
+        ?>
+
+    </section>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
-
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,7 +108,6 @@ $rows = $result->fetchAll();
 </head>
 
 <body>
-
     <?php
     include "_includes/header.php";
     ?>
@@ -89,89 +116,56 @@ $rows = $result->fetchAll();
     </style>
 
     <h1>
+        <?= $Title ?>
     </h1>
 
+    <?php
 
-    <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
+    echo "hey"
+    ?>
 
+    <?php
 
-        <label for="title">Book title</label>
-        <input type="text" name="title" id="title" required minlength="2" maxlength="25">
+    if (isset($_SESSION['user_id'])) {
+        ?>
+        <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
 
-        <hr>
+            <hr>
+            <label for="title">Book title</label>
+            <input type="text" name="title" id="title" required minlength="2" maxlength="25">
 
-        <label for="author">Author</label>
-        <br>
-        <input type="text" name="author" id="author">
+            <hr>
 
-        <hr>
-        <label for="year_published"> Year published</label>
-        <input type="string" name="year_published" id="year_published">
-
-
-        <hr>
-        <label for="review">Review</label>
-        <hr>
-        <textarea name="review" id="review" cols="30" rows="10"></textarea>
-
-        <hr>
-
-        <div>
-            <input type="submit" value="Spara" class="button">
+            <label for="author">Author</label>
             <br>
-            <input type="reset" value="Nollställ" class="button1">
+            <input type="text" name="author" id="author">
 
-        </div>
-    </form>
+            <hr>
+            <label for="year_published"> Year published</label>
+            <input type="string" name="year_published" id="year_published">
 
-    <section>
+            <hr>
+            <label for="review">Review</label>
+            <hr>
+            <textarea name="review" id="review" cols="30" rows="10"></textarea>
+        
+            <hr>
+
+            <input type="number" name="book_id" value="<?= $row['book_id'] ?>">
+                <input type="number" name="user_id" value="<?= $_SESSION['user_id'] ?>">
+
+            <div>
+                <input type="submit" value="Spara" class="button">
+                <br>
+                <input type="reset" value="Nollställ" class="button1">
+
+            </div>
+        </form>
         <?php
 
-        foreach ($rows as $row) {
-            // $book_id = $row['book_id'];
-            $title = $row['title'];
-            $author = $row['author'];
-            $year_published = $row['year_published'];
-            $review = $row['review'];
-            // $created_at = $row['created_at'];
-            // $user_id = $row['user_is'];
-        }
+    }
+    ?>
 
-
-        // Assuming $result is the database query result containing multiple rows
-        
-        foreach ($result as $row) {
-            $book_id = $row['book_id'];
-            $title = $row['title'];
-            $author = $row['author'];
-            $year_published = $row['year_published'];
-            $review = $row['review'];
-            $created_at = $row['created_at'];
-            $user_id = $row ['user_id'];
-        
-            echo '<a href="book_edit.php?id=' . $book_id . '">';
-            echo $title;
-            echo '</a>';
-            echo $author;
-            echo '<br>';
-            echo $year_published;
-            echo '</a>';
-            echo $review;
-            echo '</a>';
-            echo $created_at;
-            echo '</a>';
-            echo $user_id;
-            echo '</a>';
-
-            // Add line break for better readability
-        }
-        ?>
-
-        <?php
-
-        ?>
-
-    </section>
 
     <?php
     include "_includes/footer.php";
