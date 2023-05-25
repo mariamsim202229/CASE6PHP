@@ -13,13 +13,13 @@ $Title = "BOOK REVIEW";
 
 // Preparing variables that will be used in the form
 
-$book_id = 0;
+$book_id = [0];
 $title = "";
 $author = "";
 $year_published = "";
 $review = "";
 $created_at = date('Y-m-d H:i:s');
-$user_id = 0;
+$user_id = [0];
 
 
 
@@ -33,13 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
     // $title = trim($_POST['title']);
 
-    // $book_id = $_POST['book_id'];
-    // $title = $_POST['title'];
-    // $author = $_POST['author'];
-    // $year_published = $_POST['year_published'];
-    // $review = $_POST['review'];
-    // $created_at = date('Y-m-d H:i:s'); // Use the current datetime
-    // $user_id = 7;
+    $book_id = $_POST['book_id'];
+    $title = $_POST['title'];
+    $author = $_POST['author'];
+    $year_published = $_POST['year_published'];
+    $review = $_POST['review'];
+    $created_at = date('Y-m-d H:i:s'); // Use the current datetime
+    $user_id = 0;
 
     // kontrollera att minst 2 tecken finns i fältet för book_id
     if (strlen($title) >= 2) {
@@ -126,7 +126,7 @@ $rows = $result->fetchAll();
 
     <?php
 
-    if (isset($_SESSION['user_id'])) {
+    // if (isset($_SESSION['user_id'])) {
         ?>
         <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
 
@@ -163,7 +163,7 @@ $rows = $result->fetchAll();
         </form>
         <?php
 
-    }
+    // }
     ?>
 
 

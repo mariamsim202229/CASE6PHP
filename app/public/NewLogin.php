@@ -64,7 +64,7 @@
             // när rätt lösenord är angivet är användaren känd
             // skapa sessionsvariabler som kan användas 
             $_SESSION['username'] = $user['username'];
-            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['user:user_id'] = $user['user_id'];
 
 
             // if OK redirect to bird page
