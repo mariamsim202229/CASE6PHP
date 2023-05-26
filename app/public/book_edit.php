@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 session_start();
 
+
+include "_includes/header.php";
+
 // Kontrollera om användaren är inloggad
 if (!isset($_SESSION['username'])) {
     // Användaren är inte inloggad, omdirigera till inloggningssidan eller visa ett felmeddelande
@@ -66,8 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         // spara till databasen
         $sql = "UPDATE `book` SET `title` = '$title', `author` = '$author', `year_published` = '$year_published', `review` = '$review', `created_at` = '$created_at', user_id = $user_id WHERE book_id = $book_id";
 
-
-
         print_r2($sql);
 
         // använd databaskopplingen för att spara till tabellen i databasen
@@ -81,12 +82,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     }
 }
 
-
 // för att redigera en bookrecension används en GET request där id framgår, ex id=2
 if ($_SERVER['REQUEST_METHOD'] === "GET") {
 
     $book_id = isset($_GET['book_id']) ? $_GET['book_id'] : 0;
-
 
     // / Steg 2: Kör en fråga för att hämta data från "bok"-tabellen
     $sql = "SELECT * FROM book";
@@ -102,18 +101,9 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
     // print_r2($result);
     // om det finns ett resultat från databasanropet sparas det i variabeln $row
 
-
     // Steg 3: Visa resultaten på din webbsida
 // kontrollera att det finns en post som gav resultat
-    if ($row) { {
-            print_r2($row);
-            $book_id = $row['book_id'];
-            $title = $row['title'];
-            $author = $row['author'];
-            $year_published = $row['year_published'];
-            $created_at = $row['created_at'];
-            $user_id = $row['user_id'];
-        }
+    if ($row) {
         echo "<table>";
         echo "<tr><th>book_id</th><th>title</th><th>author</th><th>year published</th><th>review</th><th>created_at</th><th>user_id</th></tr>";
 
@@ -134,45 +124,18 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
     echo "No books found in the database.";
 }
 
-
-
-// Förutsatt att $result är databasfrågeresultatet som innehåller flera rader
-// $result är databasfrågans resultat med flera rader
-
-foreach ($result as $row) {
-    $book_id = $row['book_id'];
-    $title = $row['title'];
-    $author = $row['author'];
-    $year_published = $row['year_published'];
-    $review = $row['review'];
-    $created_at = $row['created_at'];
-    $user_id = $row['user_id'];
-
-    // echo "<tr>";
-    // echo "<td>" . $row["title"] . "</td>";
-    // echo "<td>" . $row["author"] . "</td>";
-    // echo "<td>" . $row["year_published"] . "</td>";
-    // echo "<td>" . $row["review"] . "</td>";
-    // echo "<td>" . $row["created_at"] . "</td>";
-    // echo "<td>" . $row["user_id"] . "</td>";
-    // echo "</tr>";
-}
 echo "</table>";
 
 
-echo '<a href="book_edit.php?book_id=' . $book_id . '">';
-echo $title;
-echo '</a>';
-echo $author;
-echo '<br>';
-echo $year_published;
-echo '</a>';
-echo $review;
-echo '</a>';
-echo $created_at;
-echo '</a>';
-echo $user_id;
-echo '</a>';
+// echo '<a href="book_edit.php?id=' . $book_id . '">' . $title . '</a>';
+// echo $author . '<br>';
+// echo $year_published;
+// echo $review;
+// echo $created_at;
+// echo $user_id;
+
+
+
 
 ?>
 
@@ -185,23 +148,21 @@ echo '</a>';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <?= $title ?>
+        <?= $Title ?>
     </title>
 </head>
 
 <body>
 
-    <?php
-    include "_includes/header.php";
-    ?>
+   
 
     <style>
         <?php include 'styles/style.css'; ?>
     </style>
 
-    <h1>
+    <!-- <h1>
         <?= $Title ?>
-    </h1>
+    </h1> -->
 
 
 

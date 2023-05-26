@@ -4,11 +4,12 @@
 }
 
 header {
-    /* background-color: pink; */
+    background-color: pink;
     font-size: 20px;
     font-family: fantasy;
     border: 1px;
-    color: mediumpurple;
+    color: white border 2px solid;
+    padding: 5px;
 }
 
 footer {
@@ -23,7 +24,7 @@ body {
 }
 
 label {
-    background-color: orchid;
+    background-color: darkorange;
     border: 2px solid;
     border-radius: 10px;
     font-size: 28px;
@@ -36,15 +37,23 @@ label {
 
 input {
     border-radius: 20px;
-    background-color: pink;
+    /* background-color: pink; */
     width: 300px;
     margin-left: 15%;
-    height: 30px;
+    height: 40px;
+    font-family: fantasy;
 }
 
 nav {
-    font-size: 20px;
     font-family: fantasy;
+}
+
+a {
+    border: 1px solid white;
+    background-color: darkorange;
+    font-size: 25px;
+    padding: 3px;
+    color: black;
 }
 
 hr {
@@ -59,17 +68,15 @@ hr {
     height: fit-content;
     width: 150px;
     padding: 5px;
-
 }
 
 .button1 {
-    background-color: tomato;
+    background-color: darkorange;
     font-size: 28px;
     font-family: fantasy;
     height: fit-content;
     width: 150px;
     padding: 5px;
-
 }
 
 h1 {
@@ -83,6 +90,10 @@ h1 {
     font-size: 30px;
 }
 
+h2 {
+    margin-left: 28px;
+    color: darkslateblue;
+}
 
 textarea {
     background-color: pink;
@@ -90,7 +101,6 @@ textarea {
     border-radius: 20px;
     width: 300px;
 }
-
 
 table {
     border: 2px solid;
@@ -102,12 +112,10 @@ td {
     border: 1px solid;
 }
 
-
 tr {
     font-family: fantasy;
     border-right: 1px solid;
 }
-
 
 .button3 {
     font-size: larger;
@@ -118,8 +126,14 @@ tr {
 }
 
 .logout {
-    font-size: larger;
+    font-size: 28px;
+    font-family: fantasy;
+    color: blueviolet;
+    margin-left: 50px;
 }
 
-
-.register {border: 3px solid; padding: 10px; background-color: pink;}
+.register {
+    border: 3px solid;
+    padding: 10px;
+    background-color: pink;
+}

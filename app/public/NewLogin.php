@@ -22,7 +22,7 @@ setup_user($pdo);
     <?php
     include "_includes/header.php";
     ?>
-    
+
 <!-- koppla till css -->
     <style>
         <?php include 'styles/style.css'; ?>

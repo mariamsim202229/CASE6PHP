@@ -143,18 +143,17 @@ $rows = $result->fetchAll();
 
             <hr>
             <label for="author">Author</label>
-            <br>
             <input type="text" name="author" id="author">
 
 
             <hr>
             <label for="year_published"> Year published</label>
+
             <input type="string" name="year_published" id="year_published">
 
 
             <hr>
             <label for="review">Review</label>
-
             <hr>
             <textarea name="review" id="review" cols="30" rows="10"></textarea>
 

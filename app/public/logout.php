@@ -25,7 +25,9 @@ session_destroy();
     </style>
 
     <p class="logout">
-    Du är nu utloggad - tillbaka till <a href="NewLogin.php">att kunna logga in</a>;
+    Du är nu utloggad - tillbaka till
+<br>
+    <a href="NewLogin.php">Login page</a>;
     </p>
 </body>
 </html>

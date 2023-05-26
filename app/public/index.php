@@ -28,10 +28,13 @@ $Title = "Case-6-PHP";
 
     </h1>
 
+
+    <header>
+<nav>
     <a href="book.php">Book Review</a>
     <a href="book_edit.php">Book edit</a>
-
-
+    </nav>
+    </header>
 </body>
 
 </html>
