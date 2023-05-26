@@ -1,9 +1,7 @@
 <?php
 
 declare(strict_types=1);
-
 session_start();
-
 
 include "_includes/header.php";
 
@@ -14,7 +12,6 @@ if (!isset($_SESSION['username'])) {
     header("Location: NewLogin.php");
     exit; // Make sure to exit after the header redirect
 }
-
 
 include "_includes/global-functions.php";
 include "_includes/database-connection.php";

@@ -18,7 +18,7 @@ $Title = "Case-6-PHP";
     </title>
 </head>
 
-<body>
+<body class="indexbody">
 
     <style>
         <?php include 'styles/style.css'; ?>
@@ -31,10 +31,21 @@ $Title = "Case-6-PHP";
 
     <header>
 <nav>
-    <a href="book.php">Book Review</a>
-    <a href="book_edit.php">Book edit</a>
+
+<menu class="indexmenu">
+| <a href="register.php">Registera</a>
+<a href="book.php">Bokrecension</a>
+<hr>
+    <a href="book_edit.php">Min sida</a>
+    | <a href="NewLogin.php">Logga in</a>
+ 
+</menu>
+ 
     </nav>
     </header>
+
+
+
 </body>
 
 </html>

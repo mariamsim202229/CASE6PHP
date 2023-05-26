@@ -28,7 +28,7 @@ $author = "";
 $year_published = "";
 $review = "";
 $created_at = date('Y-m-d H:i:s');
-$user_id = 0;
+// $user_id =('user_id');
 
 
 // gör en POST-förfrågan
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     if (strlen($title) >= 2) {
 
         // spara till databasen
-        $sql = "INSERT INTO book (title, author, year_published, review, created_at, user_id) VALUES ('$title', '$author', '$year_published', '$review', '$created_at', '$user_id')";
+        $sql = "INSERT INTO book (title, author, year_published, review, created_at) VALUES ('$title', '$author', '$year_published', '$review', '$created_at')";
         print_r2($sql);
 
         // använd databaskopplingen för att spara till tabellen i databasen
@@ -138,17 +138,19 @@ $rows = $result->fetchAll();
         <p>
             <hr>
             <label for="title">Book title</label>
+            <hr>
             <input type="text" name="title" id="title" required minlength="2" maxlength="25">
 
 
             <hr>
             <label for="author">Author</label>
+            <hr>
             <input type="text" name="author" id="author">
 
 
             <hr>
             <label for="year_published"> Year published</label>
-
+<hr>
             <input type="string" name="year_published" id="year_published">
 
 
