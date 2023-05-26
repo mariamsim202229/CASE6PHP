@@ -4,6 +4,15 @@ declare(strict_types=1);
 
 session_start();
 
+// Kontrollera om användaren är inloggad
+if (!isset($_SESSION['username'])) {
+    // Användaren är inte inloggad, omdirigera till inloggningssidan eller visa ett felmeddelande
+
+    header("Location: NewLogin.php");
+    exit; // Make sure to exit after the header redirect
+}
+
+
 include "_includes/global-functions.php";
 include "_includes/database-connection.php";
 
@@ -28,9 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     // global array $_POST innehåller olika fält som finns i formuläret
     print_r2($_POST);
 
-    // $book_id = isset($_POST['book_id']) ? $_POST['book_id'] : 0;
+    // $title = trim($_POST['title']);
+    $book_id = isset($_POST['book_id']) ? $_POST['book_id'] : 0;
     $user_id = $_SESSION['user_id'];
-
 
     // kontrollera om det finns ett fält med delete som name attribut
     // finns fältet aktivt - dvs ngn klickat på knappen - radera posten
@@ -46,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         // om posten raderas visa åter sidan book.php
         if ($result) {
-            header('Location: book.php?action=delete');
+            header('Location: book_edit.php?action=delete');
             exit;
         }
     }
@@ -55,7 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     if (strlen($author) >= 2) {
 
         // spara till databasen
-        $sql = "UPDATE `book` SET ` `title` = '$title' , `author` = '$author', `year_published` = '$year_published', `review` = '$review', `created_at` = '$created_at', user_id = $user_id WHERE book_id = $book_id";
+        $sql = "UPDATE `book` SET `title` = '$title', `author` = '$author', `year_published` = '$year_published', `review` = '$review', `created_at` = '$created_at', user_id = $user_id WHERE book_id = $book_id";
+
+
 
         print_r2($sql);
 
@@ -64,12 +75,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         // om posten uppdaterats visa sidan bird.php
         if ($result) {
-            header('Location: book.php?action=update');
+            header('Location: book_edit.php?action=update');
             exit;
         }
     }
 }
-
 
 
 // för att redigera en bookrecension används en GET request där id framgår, ex id=2
@@ -77,8 +87,10 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 
     $book_id = isset($_GET['book_id']) ? $_GET['book_id'] : 0;
 
-    // / Step 2: Execute a query to fetch data from the 'book' table
+
+    // / Steg 2: Kör en fråga för att hämta data från "bok"-tabellen
     $sql = "SELECT * FROM book";
+    //  WHERE book_id=$book_id";
     $result = $pdo->query($sql);
 
     // använd databaskopplingen för att hämta data
@@ -90,7 +102,8 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
     // print_r2($result);
     // om det finns ett resultat från databasanropet sparas det i variabeln $row
 
-    // Step 3: Display the results on your webpage
+
+    // Steg 3: Visa resultaten på din webbsida
 // kontrollera att det finns en post som gav resultat
     if ($row) { {
             print_r2($row);
@@ -102,30 +115,31 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
             $user_id = $row['user_id'];
         }
         echo "<table>";
-        echo "<tr>th>book_id</th><th>title</th><th>author</th><th>year published</th><th>review</th><th>created_at</th><th>user_id</th></tr>";
+        echo "<tr><th>book_id</th><th>title</th><th>author</th><th>year published</th><th>review</th><th>created_at</th><th>user_id</th></tr>";
 
         while ($row = $result->fetch()) {
-        echo "<tr>";
-        echo "<td>" . $row["book_id"] . "</td>";
-        echo "<td>" . $row["title"] . "</td>";
-        echo "<td>" . $row["author"] . "</td>";
-        echo "<td>" . $row["year_published"] . "</td>";
-        echo "<td>" . $row["review"] . "</td>";
-        echo "<td>" . $row["created_at"] . "</td>";
-        echo "<td>" . $row["user_id"] . "</td>";
-        echo "</tr>";
+            echo "<tr>";
+            echo "<td>" . $row["book_id"] . "</td>";
+            echo "<td>" . $row["title"] . "</td>";
+            echo "<td>" . $row["author"] . "</td>";
+            echo "<td>" . $row["year_published"] . "</td>";
+            echo "<td>" . $row["review"] . "</td>";
+            echo "<td>" . $row["created_at"] . "</td>";
+            echo "<td>" . $row["user_id"] . "</td>";
+            echo "</tr>";
+        }
     }
-    echo "</table>"; }
-else
-     {
-        echo "No books found in the database.";
-    }
+    echo "</table>";
+} else {
+    echo "No books found in the database.";
 }
 
-    // Assuming $result is the database query result containing multiple rows
-//  $result is the database query result with multiple rows
 
-    foreach ($result as $row) {
+
+// Förutsatt att $result är databasfrågeresultatet som innehåller flera rader
+// $result är databasfrågans resultat med flera rader
+
+foreach ($result as $row) {
     $book_id = $row['book_id'];
     $title = $row['title'];
     $author = $row['author'];
@@ -146,7 +160,7 @@ else
 echo "</table>";
 
 
-echo '<a href="book_edit.php?id=' . $book_id . '">';
+echo '<a href="book_edit.php?book_id=' . $book_id . '">';
 echo $title;
 echo '</a>';
 echo $author;
@@ -196,38 +210,39 @@ echo '</a>';
     <?php
     if ($row) {
         ?>
-
-
         <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
 
-            <form action="">
 
-                <label for="title">title</label>
-                <input type="text" name="title" id="title" value="<?= $title ?>" required minlength="2" maxlength="25">
-                <hr>
-                <label for="author">Author</label>
-                <input type="text" name="author" id="author" value="<?= $author ?>" required minlength="2" maxlength="25">
-                <hr>
-                <label for="year_published">Year</label>
-                <input type="text" name="year_published" id="year_published" value="<?= $year_published ?>" required
-                    minlength="2" maxlength="25">
-                <hr>
-                <label for="review">Review</label>
-                <input type="text" name="review" id="review" value="<?= $review ?>" required minlength="2" maxlength="25">
-                <!-- skicka med fågelns id som finns sparad i databasen - använd ett dolt input fält -->
-                <input type="hidden" name="book_id" value="<?= $row['book_id'] ?>">
+            <label for="title">title</label>
+            <input type="text" name="title" id="title" value="<?= $title ?>" required minlength="2" maxlength="25">
+            <hr>
+            <label for="author">Author</label>
+            <input type="text" name="author" id="author" value="<?= $author ?>" required minlength="2" maxlength="25">
+            <hr>
+            <label for="year_published">Year</label>
+            <input type="string" name="year_published" id="year_published" value="<?= $year_published ?>" required
+                minlength="2" maxlength="25">
+            <hr>
+            <label for="review">Review</label>
+            <input type="text" name="review" id="review" value="<?= $review ?>" required minlength="2" maxlength="25">
+            <hr>
+            <label for="created_at">Created at</label>
+
+            <hr>
+
+            <!-- skicka med book_id och user_id som finns sparad i databasen - använd ett dolt input fält -->
+            <input type="hidden" name="book_id" value="<?= $row['book_id'] ?>">
             <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
-                </p>
 
-                <hr>
-                <input type="submit" value="Uppdatera" class="button3">
-                <hr>
-                <input type="reset" value="Nollställ" class="button3">
+            <hr>
+            <input type="submit" value="Uppdatera" name="update">
+            <hr>
+            <input type="reset" value="Nollställ">
 
-                <hr>
-                <input type="submit" value="Radera" name="delete" class="button3">
+            <hr>
+            <input type="submit" value="Radera" name="delete">
 
-            </form>
+        </form>
 
     </body>
     <?php

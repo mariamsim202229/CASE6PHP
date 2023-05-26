@@ -4,12 +4,10 @@
 }
 
 header {
-    background-color: pink;
+    /* background-color: pink; */
     font-size: 20px;
     font-family: fantasy;
-    margin-left: 100px;
     border: 1px;
-    width: fit-content;
     color: mediumpurple;
 }
 
@@ -45,7 +43,7 @@ input {
 }
 
 nav {
-    font-size: 25px;
+    font-size: 20px;
     font-family: fantasy;
 }
 
@@ -94,14 +92,34 @@ textarea {
 }
 
 
-table {border: 2px solid; font-size: larger; background-color: pink;}
+table {
+    border: 2px solid;
+    font-size: larger;
+    background-color: pink;
+}
 
- td {border: 1px solid;}
+td {
+    border: 1px solid;
+}
 
 
- tr {font-family: fantasy; border-right: 1px solid;}
+tr {
+    font-family: fantasy;
+    border-right: 1px solid;
+}
 
 
-  .button3 {font-size: larger; font-family: fantasy; background-color: burlywood; width: 150px;font-style: oblique;}
+.button3 {
+    font-size: larger;
+    font-family: fantasy;
+    background-color: burlywood;
+    width: 150px;
+    font-style: oblique;
+}
 
-  .logout {font-size: larger;}
+.logout {
+    font-size: larger;
+}
+
+
+.register {border: 3px solid; padding: 10px; background-color: pink;}

@@ -27,7 +27,6 @@ try {
 
 // funktion för att skapa tabellen bookReview
 function setup_book($pdo)
-
 {
 
     $sql = "CREATE TABLE IF NOT EXISTS `book` (
@@ -41,7 +40,8 @@ function setup_book($pdo)
         PRIMARY KEY (`book_id`)
        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
 
-    $pdo->exec($sql); }
+    $pdo->exec($sql);
+}
 
 
 // funktion för att skapa tabellen user
