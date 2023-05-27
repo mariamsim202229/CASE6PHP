@@ -19,13 +19,13 @@ include "_includes/database-connection.php";
 $Title = "Min sida-redigera bokrecensioner";
 
 // förbered variabler som används i formuläret
-$book_id = "";
+$book_id = 0;
 $title = "";
 $author = "";
 $year_published = "";
 $review = "";
 $created_at = date('Y-m-d H:i:s');
-$user_id = "";
+$user_id = $_SESSION['user_id'];
 
 $row = null;
 
@@ -85,9 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
     $book_id = isset($_GET['book_id']) ? $_GET['book_id'] : 0;
 
     // / Steg 2: Kör en fråga för att hämta data från "bok"-tabellen
-    $sql = "SELECT * FROM book";
-    //  WHERE book_id=$book_id";
-    $result = $pdo->query($sql);
+    $sql = "SELECT * FROM book WHERE user_id = $_SESSION[user_id]";
+    // $result = $pdo->query($sql);
 
     // använd databaskopplingen för att hämta data
     $result = $pdo->prepare($sql);

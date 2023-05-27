@@ -28,7 +28,7 @@ $author = "";
 $year_published = "";
 $review = "";
 $created_at = date('Y-m-d H:i:s');
-// $user_id =('user_id');
+$user_id = $_SESSION['user_id'];
 
 
 // gör en POST-förfrågan
@@ -41,20 +41,18 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
     // $title = trim($_POST['title']);
 
-    // $book_id = $_POST['book_id'];
+   
     $title = $_POST['title'];
     $author = $_POST['author'];
     $year_published = $_POST['year_published'];
     $review = $_POST['review'];
-    $created_at = date('Y-m-d H:i:s');
-    //  Use the current datetime
-    // $user_id = 0;
+    $created_at = date('Y-m-d H:i:s'); //  Use the current datetime
 
     // kontrollera att minst 2 tecken finns i fältet för book_id
     if (strlen($title) >= 2) {
 
         // spara till databasen
-        $sql = "INSERT INTO book (title, author, year_published, review, created_at) VALUES ('$title', '$author', '$year_published', '$review', '$created_at')";
+        $sql = "INSERT INTO book (title, author, year_published, review, created_at, user_id) VALUES ('$title', '$author', '$year_published', '$review', '$created_at', $user_id)";
         print_r2($sql);
 
         // använd databaskopplingen för att spara till tabellen i databasen
@@ -131,7 +129,7 @@ $rows = $result->fetchAll();
 
     // Skapa en tabell för att visa/redigera resultatet
     
-    // if (isset($_SESSION['user_id'])) {
+    if (isset($_SESSION['user_id'])) {
     ?>
     <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
 
@@ -176,7 +174,7 @@ $rows = $result->fetchAll();
     </form>
     <?php
 
-    // }
+    }
     ?>
 
 

@@ -2,7 +2,8 @@
 <footer>
 
     Mariam Simonyan
-    github: mariam202229
+    <hr>
+    Github: mariam202229
 
 
 </footer>

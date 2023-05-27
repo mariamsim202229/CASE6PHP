@@ -27,24 +27,28 @@ $Title = "Case-6-PHP";
         <?php echo "CASE 6"; ?>
 
     </h1>
-
+<h2>Välkommen till en bokrecension applikation</h2>
 
     <header>
-<nav>
+        <nav>
 
-<menu class="indexmenu">
-| <a href="register.php">Registera</a>
-<a href="book.php">Bokrecension</a>
-<hr>
-    <a href="book_edit.php">Min sida</a>
-    | <a href="NewLogin.php">Logga in</a>
- 
-</menu>
- 
-    </nav>
+            <menu class="indexmenu">
+                <a href="register.php">Registera</a>
+                <hr>
+                <a href="book.php">Bokrecension</a>
+                <hr>
+                <a href="book_edit.php">Min sida</a>
+                <hr>
+                <a href="NewLogin.php">Logga in</a>
+
+            </menu>
+
+        </nav>
     </header>
 
-
+    <?php
+    include "_includes/footer.php";
+    ?>
 
 </body>
 
