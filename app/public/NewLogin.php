@@ -36,17 +36,12 @@ setup_user($pdo);
         <label for="username">Username: </label>
         <br>
         <input type="text" name="username" id="username">
-
         <hr>
-
         <label for="password">Password: </label>
         <br>
         <input type="password" name="password" id="password">
-
         <button type="submit">Login</button>
     </form>
-
-
 </body>
 
 </html>
@@ -58,7 +53,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Få användardata från form
     $form_username = $_POST['username'];
     $form_hashed_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
 
     // Skicka fråga till databasen
     $sql_statement = "SELECT * FROM `user` WHERE `username` = '$form_username'";

@@ -22,7 +22,7 @@ setup_book($pdo);
 $Title = "BOOK REVIEW";
 
 // Förbereder variabler som kommer att användas i formuläret
-$book_id = 0;
+// $book_id = 0;
 $title = "";
 $author = "";
 $year_published = "";
@@ -34,14 +34,13 @@ $user_id = $_SESSION['user_id'];
 // gör en POST-förfrågan
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
-    print_r2("Metoden post används...");
+    // print_r2("Metoden post används...");
 
     // global array $_POST innehåller olika fält som finns i formuläret
-    print_r2($_POST);
+    // print_r2($_POST);
 
     // $title = trim($_POST['title']);
 
-   
     $title = $_POST['title'];
     $author = $_POST['author'];
     $year_published = $_POST['year_published'];
@@ -60,7 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     }
 }
 
-
 // visa eventuella böcker som finns i tabellen
 $sql = "SELECT book.book_id, book.title, book.author, book.year_published, book.review, book.created_at, user.username FROM book JOIN user ON book.user_id = user.user_id";
 
@@ -70,34 +68,6 @@ $result->execute();
 $rows = $result->fetchAll();
 
 ?>
-
-<section>
-
-    <?php
-    foreach ($rows as $row) {
-        $book_id = $row['book_id'];
-        $title = $row['title'];
-        $author = $row['author'];
-        $year_published = $row['year_published'];
-        $review = $row['review'];
-        $created_at = $row['created_at'];
-        // $user_id = $row['user_id'];
-        echo "<div>";
-        // echo "<a href=\"bird_edit.php?id=$id\">";
-        if (isset($_SESSION['user_id'])) {
-            echo '<a href="book_edit.php?id=' . $row['book_id'] . '">';
-        }
-        // echo $row['title'] . ", " . $row['username'];
-    
-        if (isset($_SESSION['user_id'])) {
-            echo "</a>";
-        }
-        echo "</div>";
-    }
-
-    ?>
-
-</section>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -124,61 +94,47 @@ $rows = $result->fetchAll();
         <?= $Title ?>
     </h1>
 
-
     <?php
 
     // Skapa en tabell för att visa/redigera resultatet
     
     if (isset($_SESSION['user_id'])) {
-    ?>
-    <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
+        ?>
+        <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
 
-        <p>
-            <hr>
-            <label for="title">Book title</label>
-            <hr>
-            <input type="text" name="title" id="title" required minlength="2" maxlength="25">
+            <p>
+                <hr>
+                <label for="title">Book title</label>
+                <hr>
+                <input type="text" name="title" id="title" required minlength="2" maxlength="25">
 
+                <hr>
+                <label for="author">Author</label>
+                <hr>
+                <input type="text" name="author" id="author">
+                <hr>
+                <label for="year_published"> Year published</label>
+                <hr>
+                <input type="string" name="year_published" id="year_published">
+                <hr>
+                <label for="review">Review</label>
+                <hr>
+                <textarea name="review" id="review" cols="30" rows="10"></textarea>
+                <hr>
+                <!-- för att koppla en användare till tabellen används ett dolt fält med användarens id -->
+                <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
+            </p>
 
-            <hr>
-            <label for="author">Author</label>
-            <hr>
-            <input type="text" name="author" id="author">
+            <p>
+                <input type="submit" value="Spara" class="button">
+                <br>
+                <input type="reset" value="Nollställ" class="button1">
+            </p>
 
-
-            <hr>
-            <label for="year_published"> Year published</label>
-<hr>
-            <input type="string" name="year_published" id="year_published">
-
-
-            <hr>
-            <label for="review">Review</label>
-            <hr>
-            <textarea name="review" id="review" cols="30" rows="10"></textarea>
-
-
-            <hr>
-
-            <!-- för att koppla en användare till tabellen används ett dolt fält med användarens id -->
-            <!-- <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>"> -->
-        </p>
-
-        <p>
-            <input type="submit" value="Spara" class="button">
-            <br>
-            <input type="reset" value="Nollställ" class="button1">
-
-        </p>
-
-    </form>
-    <?php
-
+        </form>
+        <?php
     }
     ?>
-
-
-
     <?php
     include "_includes/footer.php";
     ?>
