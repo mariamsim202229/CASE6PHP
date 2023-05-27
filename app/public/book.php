@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 session_start();
 
-
 // Kontrollera om användaren är inloggad
 if (!isset($_SESSION['username'])) {
 
@@ -17,7 +16,6 @@ include "_includes/global-functions.php";
 
 setup_book($pdo);
 
-
 // Variabler i php börjar med dollartecken
 $Title = "BOOK REVIEW";
 
@@ -29,7 +27,6 @@ $year_published = "";
 $review = "";
 $created_at = date('Y-m-d H:i:s');
 $user_id = $_SESSION['user_id'];
-
 
 // gör en POST-förfrågan
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
@@ -46,26 +43,19 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $year_published = $_POST['year_published'];
     $review = $_POST['review'];
     $created_at = date('Y-m-d H:i:s'); //  Use the current datetime
+    $user_id = $_SESSION['user_id'];
 
     // kontrollera att minst 2 tecken finns i fältet för book_id
-    if (strlen($title) >= 2) {
+    if (!isset($_SESSION['username']))
+        ;
 
-        // spara till databasen
-        $sql = "INSERT INTO book (title, author, year_published, review, created_at, user_id) VALUES ('$title', '$author', '$year_published', '$review', '$created_at', $user_id)";
-        print_r2($sql);
+    // spara till databasen
+    $sql = "INSERT INTO book (title, author, year_published, review, created_at, user_id) VALUES ('$title', '$author', '$year_published', '$review', '$created_at', $user_id)";
+    print_r2($sql);
 
-        // använd databaskopplingen för att spara till tabellen i databasen
-        $pdo->exec($sql);
-    }
+    // använd databaskopplingen för att spara till tabellen i databasen
+    $result = $pdo->exec($sql);
 }
-
-// visa eventuella böcker som finns i tabellen
-$sql = "SELECT book.book_id, book.title, book.author, book.year_published, book.review, book.created_at, user.username FROM book JOIN user ON book.user_id = user.user_id";
-
-// använd databaskopplingen för att hämta data
-$result = $pdo->prepare($sql);
-$result->execute();
-$rows = $result->fetchAll();
 
 ?>
 
@@ -135,6 +125,8 @@ $rows = $result->fetchAll();
         <?php
     }
     ?>
+
+
     <?php
     include "_includes/footer.php";
     ?>
