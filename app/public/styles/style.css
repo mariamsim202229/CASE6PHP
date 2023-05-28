@@ -103,9 +103,10 @@ textarea {
 }
 
 table {
-    border: 2px solid;
+    border: 1px solid;
     font-size: larger;
     background-color: pink;
+    width: 600px;
 }
 
 td {

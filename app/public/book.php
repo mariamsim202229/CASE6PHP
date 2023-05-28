@@ -31,10 +31,10 @@ $user_id = $_SESSION['user_id'];
 // gör en POST-förfrågan
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
-    // print_r2("Metoden post används...");
+    print_r2("Metoden post används...");
 
     // global array $_POST innehåller olika fält som finns i formuläret
-    // print_r2($_POST);
+    print_r2($_POST);
 
     // $title = trim($_POST['title']);
 
@@ -46,8 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $user_id = $_SESSION['user_id'];
 
     // kontrollera att minst 2 tecken finns i fältet för book_id
-    if (!isset($_SESSION['username']))
-        ;
+    if (isset($_SESSION['username'])) {
 
     // spara till databasen
     $sql = "INSERT INTO book (title, author, year_published, review, created_at, user_id) VALUES ('$title', '$author', '$year_published', '$review', '$created_at', $user_id)";
@@ -57,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $result = $pdo->exec($sql);
 }
 
-// }
+}
 // visa eventuella böcker som finns i tabellen
 $sql = "SELECT book.book_id, book.title, book.author, book.year_published, book.review, book.created_at, user.username FROM book JOIN user ON book.user_id = user.user_id";
 
@@ -67,9 +66,38 @@ $result->execute();
 $rows = $result->fetchAll();
 
 
-
-
 ?>
+
+<!-- <section> -->
+
+    <?php
+    // foreach ($rows as $row) {
+    //     $book_id = $row['book_id'];
+    //     $title = $row['title'];
+    //     $author = $row['author'];
+    //     $year_published = $row['year_published'];
+    //     $review = $row['review'];
+    //     $created_at = $row['created_at'];
+    //     // $user_id = $row['user_id'];
+    //     echo "<div>";
+    //     // echo "<a href=\"bird_edit.php?id=$id\">";
+    //     if (isset($_SESSION['user_id'])) {
+    //         echo '<a href="book_edit.php?id=' . $row['book_id'] . '">';
+    //     }
+    //     // echo $row['title'] . ", " . $row['username'];
+    
+    //     if (isset($_SESSION['user_id'])) {
+    //         echo "</a>";
+    //     }
+    //     echo "</div>";
+    // }
+
+    ?>
+
+<!-- </section> -->
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -137,6 +165,29 @@ $rows = $result->fetchAll();
         <?php
     }
     ?>
+
+<section>
+
+<?php
+
+// foreach ($rows as $row) {
+//     $id = $row['bird_id'];
+//     echo "<div>";
+//     // echo "<a href=\"bird_edit.php?id=$id\">";
+//     if (isset($_SESSION['user_id'])) {
+//         echo '<a href="bird_edit.php?id='. $row['bird_id'] .'">';
+//     }
+//     echo $row['bird_name'] . ", " . $row['username'];
+
+//     if (isset($_SESSION['user_id'])) {
+//         echo "</a>";
+//     }
+//     echo "</div>";
+// }
+
+?>
+
+</section>
 
 
     <?php
