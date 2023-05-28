@@ -27,28 +27,6 @@ $user_id = $_SESSION['user_id'];
 
 $row = null;
 
-// visa eventuella böcker som finns i tabellen
-$sql = "SELECT book.book_id, book.title, book.author, book.year_published, book.review, book.created_at, user.username FROM book JOIN user ON book.user_id = user.user_id";
-
-// använd databaskopplingen för att hämta data
-$result = $pdo->prepare($sql);
-$result->execute();
-$rows = $result->fetchAll();
-
-foreach ($rows as $row) {
-    echo '<table>';
-    echo '<tr><th>book_id</th><th>title</th><th>author</th><th>year published</th><th>review</th><th>created_at</th></tr>';
-    echo '<tr>';
-    echo '<td><a href="book_edit.php?user_id=' . $_SESSION['user_id'] . '">' . $row['book_id'] . '</a></td>';
-    echo '<td>' . $row['title'] . '</td>';
-    echo '<td>' . $row['author'] . '</td>';
-    echo '<td>' . $row['year_published'] . '</td>';
-    echo '<td>' . $row['review'] . '</td>';
-    echo '<td>' . $row['created_at'] . '</td>';
-    echo '<td>' . $_SESSION['user_id'] . '</td>';
-    echo '</tr>';
-    echo '</table>';
-}
 
 // hantera POST request
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
@@ -110,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['delete'])) {
 if ($_SERVER['REQUEST_METHOD'] === "GET") {
 
 
-    // / Steg 2: Kör en fråga för att hämta data från "book"-tabellen
+    //     // / Steg 2: Kör en fråga för att hämta data från "book"-tabellen
     $sql = "SELECT * FROM `book` WHERE user_id = $_SESSION[user_id]";
     // $book_id =  $row['book_id'];
 
@@ -120,16 +98,38 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 
     $row = $result->fetch();
 
+    if ($row) {
+        echo '<table>';
+        echo '<tr><th>book_id</th><th>title</th><th>author</th><th>year published</th><th>review</th><th>created_at</th></tr>';
+        echo '<tr>';
+        echo '<td><a href="book_edit.php?user_id=' . $_SESSION['user_id'] . '">' . $row['book_id'] . '</a></td>';
+        echo '<td>' . $row['title'] . '</td>';
+        echo '<td>' . $row['author'] . '</td>';
+        echo '<td>' . $row['year_published'] . '</td>';
+        echo '<td>' . $row['review'] . '</td>';
+        echo '<td>' . $row['created_at'] . '</td>';
+        // echo '<td>' . $_SESSION['user_id'] . '</td>';
+        echo '</tr>';
+        echo '</table>';
+    } else {
+        echo "No books found in the database.";
+    }
+
+    echo "</table>";
+
 }
+
 
 ?>
 
 <?php
 if ($row) {
+
+
     ?>
 
     <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
-    <hr>
+        <hr>
         <label for="title">title</label>
         <hr>
         <input type="text" name="title" id="title" value="<?= $row['title'] ?>" required minlength="2" maxlength="25">

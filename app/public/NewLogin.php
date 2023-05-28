@@ -6,7 +6,6 @@ require_once "_includes/database-connection.php";
 
 setup_user($pdo);
 
-
 ?>
 <html lang="en">
 

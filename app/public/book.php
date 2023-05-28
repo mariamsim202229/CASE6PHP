@@ -57,6 +57,18 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $result = $pdo->exec($sql);
 }
 
+// }
+// visa eventuella böcker som finns i tabellen
+$sql = "SELECT book.book_id, book.title, book.author, book.year_published, book.review, book.created_at, user.username FROM book JOIN user ON book.user_id = user.user_id";
+
+// använd databaskopplingen för att hämta data
+$result = $pdo->prepare($sql);
+$result->execute();
+$rows = $result->fetchAll();
+
+
+
+
 ?>
 
 <!DOCTYPE html>
