@@ -45,7 +45,7 @@ foreach ($rows as $row) {
     echo '<td>' . $row['year_published'] . '</td>';
     echo '<td>' . $row['review'] . '</td>';
     echo '<td>' . $row['created_at'] . '</td>';
-    // echo '<td>' . $row ['user_id'] . '</td>';
+    echo '<td>' . $_SESSION['user_id'] . '</td>';
     echo '</tr>';
     echo '</table>';
 }
@@ -66,6 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         // Uppdatera bokinformationen i databasen
         $sql = "UPDATE `book` SET `title` = '$title', `author` = '$author', year_published = $year_published, `review` = '$review', `created_at` = '$created_at' WHERE user_id = $_SESSION[user_id]";
 
+
         $result = $pdo->prepare($sql);
         $result->execute();
 
@@ -75,7 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             exit;
         }
     }
-
 }
 
 if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['delete'])) {
@@ -112,6 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 
     // / Steg 2: Kör en fråga för att hämta data från "book"-tabellen
     $sql = "SELECT * FROM `book` WHERE user_id = $_SESSION[user_id]";
+    // $book_id =  $row['book_id'];
 
     // använd databaskopplingen för att hämta data
     $result = $pdo->prepare($sql);
@@ -128,6 +129,7 @@ if ($row) {
     ?>
 
     <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
+    <hr>
         <label for="title">title</label>
         <hr>
         <input type="text" name="title" id="title" value="<?= $row['title'] ?>" required minlength="2" maxlength="25">
@@ -148,7 +150,7 @@ if ($row) {
         <label for="created_at">Created at</label>
         <hr>
         <!-- Include the book_id and user_id as hidden input fields -->
-        <input type="hidden" name="book_id" value="<?= $row['book_id'] ?>">
+        <input type="text" name="book_id" value="<?= $row['book_id'] ?>">
         <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
         <hr>
         <input type="submit" value="update" name="update">
