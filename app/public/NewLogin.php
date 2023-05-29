@@ -22,13 +22,12 @@ setup_user($pdo);
     include "_includes/header.php";
     ?>
 
-<!-- koppla till css -->
+    <!-- koppla till css -->
     <style>
         <?php include 'styles/style.css'; ?>
     </style>
 
     <h1>Login</h1>
-
 
     <!-- Skapa formulär för att logga in -->
     <form action="" method="post">
@@ -68,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Användare hittades, verifiera lösenordet
             if (password_verify($_POST['password'], $user['password'])) {
-                // Password is correct, set session variables
+                // Lösenordet är korrekt, ställ in sessionsvariabler
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['user_id'] = $user['user_id'];
 

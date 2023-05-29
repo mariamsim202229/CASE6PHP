@@ -20,7 +20,6 @@ setup_book($pdo);
 $Title = "BOOK REVIEW";
 
 // Förbereder variabler som kommer att användas i formuläret
-// $book_id = 0;
 $title = "";
 $author = "";
 $year_published = "";
@@ -36,12 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     // global array $_POST innehåller olika fält som finns i formuläret
     // print_r2($_POST);
 
-    // $title = trim($_POST['title']);
-
-    $title = $_POST['title'];
-    $author = $_POST['author'];
-    $year_published = $_POST['year_published'];
-    $review = $_POST['review'];
+    $title = trim($_POST['title']);
+    $author = trim($_POST['author']);
+    $year_published = trim ($_POST['year_published']);
+    $review =trim ($_POST['review']);
     $created_at = date('Y-m-d H:i:s'); //  Use the current datetime
     $user_id = $_SESSION['user_id'];
 

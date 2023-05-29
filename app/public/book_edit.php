@@ -34,13 +34,14 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['update'])) {
     // Kontrollera vilken knapp som användaren tryckte på
     // Användaren tryckte på "UPDATE" - uppdatera bokinformationen
     // Hämta användarinput
-
-    $title = ($_POST['title']);
-    $author = ($_POST['author']);
-    $year_published = ($_POST['year_published']);
-    $review = ($_POST['review']);
+    $bird_id = isset($_POST['bird_id']) ? $_POST['bird_id'] : 0;
+    $title = trim($_POST['title']);
+    $author = trim($_POST['author']);
+    $year_published = trim($_POST['year_published']);
+    $review = trim($_POST['review']);
     // $created_at = date('Y-m-d H:i:s');
     $user_id = $_SESSION['user_id'];
+
     // Uppdatera bokinformationen i databasen
     $sql = "UPDATE `book` SET `title` = '$title', `author` = '$author', year_published = $year_published, `review` = '$review', `created_at` = '$created_at' WHERE  user_id = {$_SESSION['user_id']}";
     $result = $pdo->prepare($sql);
@@ -58,33 +59,25 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['delete'])) {
     // Användaren tryckte på "Radera" - radera boken från databasen
     $book_id = $_POST['book_id'];
     // Radera boken från databasen
-    $sql = "DELETE FROM `book` WHERE `book_id` = $book_id AND user_id = {$_SESSION['user_id']} ";
+    $sql = "DELETE FROM `book` WHERE user_id = {$_SESSION['user_id']} ";
 
-    // Prepare the SQL statement
-    $result = $pdo->prepare($sql);
-
-    // Kör delete
-    $result->execute();
-
+    // använd databaskopplingen för att radera posten i tabellen
+    $result = $pdo->exec($sql);
 
     // Kontrollera om raderingen lyckades
     if ($result) {
         // Omdirigera till en framgångssida eller visa ett framgångsmeddelande
         header('Location: book_edit.php?action=delete');
         exit;
-    } else {
-        // Visa ett felmeddelande eller hantera felet på rätt sätt
-        echo "Failed to delete the book.";
     }
 }
 
 // för att redigera en bookrecension används en GET request där id framgår, ex id=2
 if ($_SERVER['REQUEST_METHOD'] === "GET") {
-
-    // $book_id = $_GET['book_id'];
-    // $user_id = $_SESSION['user_id'];
-
     // $book_id = isset($_GET['book_id']) ? $_GET['book_id'] : 0;
+    // $book_id = $_GET['book_id'];
+    $user_id = $_SESSION['user_id'];
+
     //     // / Steg 2: Kör en fråga för att hämta data från "book"-tabellen
     $sql = "SELECT * FROM `book` WHERE user_id = '{$_SESSION['user_id']}'";
 
@@ -92,60 +85,37 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
     $result = $pdo->prepare($sql);
     $result->execute();
 
-    // $row = $result->fetch();
+    if ($result) {
+        $rows = $result->fetchAll();
+        // Hämta alla rader från resultatuppsättningen
 
-    echo '<table>';
-    echo '<tr><th>book_id</th><th>title</th><th>author</th><th>year published</th><th>review</th><th>created_at</th></tr>';
-    while ($row = $result->fetch()) {
-        echo '<tr>';
-        echo '<td><a href="book_edit.php?book_id=' . $row['book_id'] . '">' . $row['book_id'] . '</a></td>';
-        echo '<td>' . $row['title'] . '</td>';
-        echo '<td>' . $row['author'] . '</td>';
-        echo '<td>' . $row['year_published'] . '</td>';
-        echo '<td>' . $row['review'] . '</td>';
-        echo '<td>' . $row['created_at'] . '</td>';
-        echo '<td>' . $_SESSION['user_id'] . '</td>';
-        echo '</tr>';
+        if (!empty($rows)) {
+            // Kontrollera om arrayen inte är tom
+            echo '<table>';
+            echo '<tr><th>book_id</th><th>title</th><th>author</th><th>year published</th><th>review</th><th>created_at</th><th>user_id</th></tr>';
+
+            foreach ($rows as $row) {
+                echo '<tr>';
+                echo '<td>' . $row['book_id'] . '</td>';
+                echo '<td>' . $row['title'] . '</td>';
+                echo '<td>' . $row['author'] . '</td>';
+                echo '<td>' . $row['year_published'] . '</td>';
+                echo '<td>' . $row['review'] . '</td>';
+                echo '<td>' . $row['created_at'] . '</td>';
+                echo '<td>' . $_SESSION['user_id'] . '</td>';
+                echo '</tr>';
+            }
+            echo '</table>';
+        } else {
+            echo 'No rows found.';
+        }
+    } else {
+        echo 'Query failed.';
     }
-    echo '</table>';
 
-
-    if ($row) {
-        ?>
-
-        <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
-            <hr>
-            <label for="title">title</label>
-            <hr>
-            <input type="text" name="title" id="title" value="<?= $row['title'] ?>" required minlength="2" maxlength="25">
-            <hr>
-            <label for="author">Author</label>
-            <hr>
-            <input type="text" name="author" id="author" value="<?= $row['author'] ?>" required minlength="2" maxlength="25">
-            <hr>
-            <label for="year_published">Year</label>
-            <hr>
-            <input type="string" name="year_published" id="year_published" value="<?= $row['year_published'] ?>" required
-                minlength="2" maxlength="25">
-            <hr>
-            <label for="review">Review</label>
-            <hr>
-            <input type="text" name="review" id="review" value="<?= $row['review'] ?>" required minlength="2" maxlength="25">
-            <hr>
-            <!-- Include the book_id and user_id as hidden input fields -->
-            <input type="text" name="book_id" value="<?= $row['book_id'] ?>">
-            <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
-            <hr>
-            <input type="submit" value="update" name="update">
-            <hr>
-            <input type="submit" value="delete" name="delete">
-        </form>
-        <?php
-    }
 }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -164,10 +134,48 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
         <?php include 'styles/style.css'; ?>
     </style>
 
-    <!-- <h1>
+    <h1>
         <?= $Title ?>
-    </h1> -->
+    </h1>
 
+    <?php
+    if ($row) {
+        ?>
+
+        <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
+            <hr>
+            <label for="title">title</label>
+            <hr>
+            <input type="text" name="title" id="title" value="<?= $row['title'] ?>" required minlength="2" maxlength="25">
+            <hr>
+            <label for="author">Author</label>
+            <hr>
+            <input type="text" name="author" id="author" value="<?= $row['author'] ?>" required minlength="2"
+                maxlength="25">
+            <hr>
+            <label for="year_published">Year</label>
+            <hr>
+            <input type="string" name="year_published" id="year_published" value="<?= $row['year_published'] ?>" required
+                minlength="2" maxlength="25">
+            <hr>
+            <label for="review">Review</label>
+            <hr>
+            <input type="text" name="review" id="review" value="<?= $row['review'] ?>" required minlength="2"
+                maxlength="25">
+            <hr>
+            <!-- Include the book_id and user_id as hidden input fields -->
+            <input type="text" name="book_id" value="<?= $row['book_id'] ?>">
+            <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
+            <hr>
+            <input type="submit" value="update" name="update">
+            <hr>
+            <input type="submit" value="delete" name="delete">
+        </form>
+
+        <?php
+
+    }
+    ?>
 
     <?php
     include "_includes/footer.php";
