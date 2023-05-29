@@ -6,10 +6,11 @@
 header {
     background-color: #ffc0cb;
     font-size: 20px;
+    height: fit-content;
     font-family: fantasy;
     border: 1px;
     color: white border 2px solid;
-    padding: 5px;
+    padding: 20px;
 }
 
 footer {
@@ -37,7 +38,7 @@ label {
 
 input {
     border-radius: 20px;
-    /* background-color: pink; */
+    background-color: pink;
     width: 300px;
     margin-left: 15%;
     height: 40px;
@@ -46,13 +47,15 @@ input {
 
 nav {
     font-family: fantasy;
+    margin-left: 50px;
+
 }
 
 a {
     border: 1px solid white;
     background-color: darkorange;
     font-size: 25px;
-    padding: 3px;
+    padding: 10px;
     color: black;
 }
 
@@ -111,6 +114,8 @@ table {
 
 td {
     border: 1px solid;
+    padding: 10px;
+    width: 50px;
 }
 
 tr {
@@ -148,3 +153,8 @@ tr {
     padding: 10px;
     background-color: pink;
 }
+
+.menu2 { margin-left: 30px;}
+
+.usernamedisplay {margin-left: 220px;
+font-size: 30px;}

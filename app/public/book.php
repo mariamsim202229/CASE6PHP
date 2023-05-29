@@ -116,6 +116,7 @@ $rows = $result->fetchAll();
                 <textarea name="review" id="review" cols="30" rows="10"></textarea>
                 <hr>
                 <!-- för att koppla en användare till tabellen används ett dolt fält med användarens id -->
+                <input type="hidden" name="book_id" id="book_id">
                 <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
             </p>
 

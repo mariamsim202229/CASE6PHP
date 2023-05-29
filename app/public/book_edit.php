@@ -19,6 +19,7 @@ include "_includes/database-connection.php";
 $Title = "Min sida-redigera bokrecensioner";
 
 // förbered variabler som används i formuläret
+//  $book_id = $_POST['book_id'];
 $title = "";
 $author = "";
 $year_published = "";
@@ -34,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['update'])) {
     // Kontrollera vilken knapp som användaren tryckte på
     // Användaren tryckte på "UPDATE" - uppdatera bokinformationen
     // Hämta användarinput
-    $bird_id = isset($_POST['bird_id']) ? $_POST['bird_id'] : 0;
+    $book_id = isset($_POST['book_id']) ? $_POST['book_id'] : 0;
     $title = trim($_POST['title']);
     $author = trim($_POST['author']);
     $year_published = trim($_POST['year_published']);
@@ -43,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['update'])) {
     $user_id = $_SESSION['user_id'];
 
     // Uppdatera bokinformationen i databasen
-    $sql = "UPDATE `book` SET `title` = '$title', `author` = '$author', year_published = $year_published, `review` = '$review', `created_at` = '$created_at' WHERE  user_id = {$_SESSION['user_id']}";
+    $sql = "UPDATE `book` SET `title` = '$title', `author` = '$author', year_published = $year_published, `review` = '$review', `created_at` = '$created_at' WHERE book_id = $book_id";
     $result = $pdo->prepare($sql);
     $result->execute();
 
@@ -59,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['delete'])) {
     // Användaren tryckte på "Radera" - radera boken från databasen
     $book_id = $_POST['book_id'];
     // Radera boken från databasen
-    $sql = "DELETE FROM `book` WHERE user_id = {$_SESSION['user_id']} ";
+    $sql = "DELETE FROM `book` WHERE book_id = $book_id ";
 
     // använd databaskopplingen för att radera posten i tabellen
     $result = $pdo->exec($sql);
@@ -92,17 +93,17 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
         if (!empty($rows)) {
             // Kontrollera om arrayen inte är tom
             echo '<table>';
-            echo '<tr><th>book_id</th><th>title</th><th>author</th><th>year published</th><th>review</th><th>created_at</th><th>user_id</th></tr>';
+            echo '<tr><th>title</th><th>author</th><th>year published</th><th>review</th><th>created_at</th></tr>';
 
             foreach ($rows as $row) {
                 echo '<tr>';
-                echo '<td>' . $row['book_id'] . '</td>';
+                echo '<td>' . '<a href="book_edit.php?book_id=' . $row['book_id'] . '" ';
                 echo '<td>' . $row['title'] . '</td>';
+                echo '</a>' . '</td>';
                 echo '<td>' . $row['author'] . '</td>';
                 echo '<td>' . $row['year_published'] . '</td>';
                 echo '<td>' . $row['review'] . '</td>';
                 echo '<td>' . $row['created_at'] . '</td>';
-                echo '<td>' . $_SESSION['user_id'] . '</td>';
                 echo '</tr>';
             }
             echo '</table>';
@@ -112,7 +113,6 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
     } else {
         echo 'Query failed.';
     }
-
 }
 
 ?>
@@ -143,33 +143,40 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
         ?>
 
         <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
-            <hr>
-            <label for="title">title</label>
-            <hr>
-            <input type="text" name="title" id="title" value="<?= $row['title'] ?>" required minlength="2" maxlength="25">
-            <hr>
-            <label for="author">Author</label>
-            <hr>
-            <input type="text" name="author" id="author" value="<?= $row['author'] ?>" required minlength="2"
-                maxlength="25">
-            <hr>
-            <label for="year_published">Year</label>
-            <hr>
-            <input type="string" name="year_published" id="year_published" value="<?= $row['year_published'] ?>" required
-                minlength="2" maxlength="25">
-            <hr>
-            <label for="review">Review</label>
-            <hr>
-            <input type="text" name="review" id="review" value="<?= $row['review'] ?>" required minlength="2"
-                maxlength="25">
-            <hr>
-            <!-- Include the book_id and user_id as hidden input fields -->
-            <input type="text" name="book_id" value="<?= $row['book_id'] ?>">
-            <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
-            <hr>
-            <input type="submit" value="update" name="update">
-            <hr>
-            <input type="submit" value="delete" name="delete">
+            <p>
+                <hr>
+                <label for="title">title</label>
+                <hr>
+                <input type="text" name="title" id="title" value="<?= $row['title'] ?>" required minlength="2"
+                    maxlength="25">
+                <hr>
+                <label for="author">Author</label>
+                <hr>
+                <input type="text" name="author" id="author" value="<?= $row['author'] ?>" required minlength="2"
+                    maxlength="25">
+                <hr>
+                <label for="year_published">Year</label>
+                <hr>
+                <input type="string" name="year_published" id="year_published" value="<?= $row['year_published'] ?>"
+                    required minlength="2" maxlength="25">
+                <hr>
+                <label for="review">Review</label>
+                <hr>
+                <textarea name="review" id="review" value="<?= $row['review'] ?>" required minlength="2" maxlength="25"
+                    cols="20" rows="5"></textarea>
+
+                <hr>
+                <!-- Include the book_id and user_id as hidden input fields -->
+                <input type="hidden" name="book_id" value="<?= $row['book_id'] ?>">
+                <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
+            </p>
+            <p>
+                <hr>
+                <input type="submit" value="update" name="update">
+                <hr>
+                <input type="submit" value="delete" name="delete">
+
+            </p>
         </form>
 
         <?php

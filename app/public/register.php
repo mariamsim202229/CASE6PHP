@@ -16,13 +16,13 @@ setup_user($pdo);
 </head>
 
 <body>
-    <h1>Register</h1>
+
 
     <?php
 
     include "_includes/header.php";
     ?>
-
+    <h1>Register</h1>
 
     <style>
         <?php include 'styles/style.css'; ?>
@@ -49,8 +49,6 @@ setup_user($pdo);
         // hämta användardata från form
         $form_username = $_POST['username'];
         $form_hashed_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
-
 
         // skicka till databasen
         $sql_statement = "INSERT INTO `user` (`username`, `password`) VALUES ('$form_username', '$form_hashed_password')";
