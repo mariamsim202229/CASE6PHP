@@ -9,7 +9,8 @@ include "_includes/header.php";
 if (!isset($_SESSION['username'])) {
     // Användaren är inte inloggad, omdirigera till inloggningssidan eller visa ett felmeddelande
     header("Location: NewLogin.php");
-    exit; // Make sure to exit after the header redirect
+    exit;
+    // Se till att avsluta efter omdirigeringen av rubriken
 }
 
 include "_includes/global-functions.php";
@@ -62,16 +63,17 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['delete'])) {
     // Prepare the SQL statement
     $result = $pdo->prepare($sql);
 
-    // Execute the delete statement
+    // Kör delete
     $result->execute();
 
-    // Check if the deletion was successful
+
+    // Kontrollera om raderingen lyckades
     if ($result) {
-        // Redirect to a success page or display a success message
+        // Omdirigera till en framgångssida eller visa ett framgångsmeddelande
         header('Location: book_edit.php?action=delete');
         exit;
     } else {
-        // Display an error message or handle the error appropriately
+        // Visa ett felmeddelande eller hantera felet på rätt sätt
         echo "Failed to delete the book.";
     }
 }
@@ -90,7 +92,23 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
     $result = $pdo->prepare($sql);
     $result->execute();
 
-    $row = $result->fetch();
+    // $row = $result->fetch();
+
+    echo '<table>';
+    echo '<tr><th>book_id</th><th>title</th><th>author</th><th>year published</th><th>review</th><th>created_at</th></tr>';
+    while ($row = $result->fetch()) {
+        echo '<tr>';
+        echo '<td><a href="book_edit.php?book_id=' . $row['book_id'] . '">' . $row['book_id'] . '</a></td>';
+        echo '<td>' . $row['title'] . '</td>';
+        echo '<td>' . $row['author'] . '</td>';
+        echo '<td>' . $row['year_published'] . '</td>';
+        echo '<td>' . $row['review'] . '</td>';
+        echo '<td>' . $row['created_at'] . '</td>';
+        echo '<td>' . $_SESSION['user_id'] . '</td>';
+        echo '</tr>';
+    }
+    echo '</table>';
+
 
     if ($row) {
         ?>
@@ -120,26 +138,10 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
             <hr>
             <input type="submit" value="update" name="update">
             <hr>
-            <input type="submit" value="Radera" name="delete">
+            <input type="submit" value="delete" name="delete">
         </form>
-
         <?php
     }
-
-    echo '<table>';
-    echo '<tr><th>book_id</th><th>title</th><th>author</th><th>year published</th><th>review</th><th>created_at</th></tr>';
-    while ($row = $result->fetch()) {
-        echo '<tr>';
-        echo '<td><a href="book_edit.php?user_id=' . $_SESSION['user_id'] . '">' . $row['book_id'] . '</a></td>';
-        echo '<td>' . $row['title'] . '</td>';
-        echo '<td>' . $row['author'] . '</td>';
-        echo '<td>' . $row['year_published'] . '</td>';
-        echo '<td>' . $row['review'] . '</td>';
-        echo '<td>' . $row['created_at'] . '</td>';
-        echo '<td>' . $_SESSION['user_id'] . '</td>';
-        echo '</tr>';
-    }
-    echo '</table>';
 }
 
 ?>
