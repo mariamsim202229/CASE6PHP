@@ -4,7 +4,7 @@
 }
 
 header {
-    background-color: pink;
+    background-color: #ffc0cb;
     font-size: 20px;
     font-family: fantasy;
     border: 1px;
@@ -19,12 +19,12 @@ footer {
 }
 
 body {
-    background-color: lightsalmon;
+    background-color: #ffa07a;
     max-width: 600px;
 }
 
 label {
-    background-color: darkorange;
+    background-color: #ff8c00;
     border: 2px solid;
     border-radius: 10px;
     font-size: 28px;
@@ -134,12 +134,17 @@ tr {
 }
 
 .register {
-    border: 3px solid;
+    border: 3px solid darkorange;
     padding: 10px;
     background-color: pink;
 }
 
-
 .indexmenu {
     padding: 25px;
+}
+
+.loginform {
+    border: 3px solid darkorange;
+    padding: 10px;
+    background-color: pink;
 }
