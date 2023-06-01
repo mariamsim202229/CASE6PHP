@@ -59,9 +59,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = $pdo->query($sql_statement);
 
         $user = $result->fetch();
-        var_dump($user);
+        // var_dump($user);
 
-        echo "user: " . $user['username'] . " should log in ";
+        // echo "user: " . $user['username'] . " should log in ";
 
         if ($user) {
 

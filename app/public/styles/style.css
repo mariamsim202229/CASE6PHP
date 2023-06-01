@@ -74,7 +74,7 @@ hr {
 }
 
 .button1 {
-    background-color: darkorange;
+    background-color: tomato;
     font-size: 28px;
     font-family: fantasy;
     height: fit-content;
@@ -94,7 +94,7 @@ h1 {
 }
 
 h2 {
-    margin-left: 28px;
+    margin-left: 80px;
     color: darkslateblue;
 }
 
@@ -154,7 +154,13 @@ tr {
     background-color: pink;
 }
 
-.menu2 { margin-left: 30px;}
+.menu2 {
+    margin-left: 30px;
+}
 
-.usernamedisplay {margin-left: 220px;
-font-size: 30px;}
+.usernamedisplay {
+    margin-left: 220px;
+    font-size: 30px;
+    font-family: fantasy;
+    color: darkorchid;
+}

@@ -16,10 +16,9 @@ if (!isset($_SESSION['username'])) {
 include "_includes/global-functions.php";
 include "_includes/database-connection.php";
 
-$Title = "Min sida-redigera bokrecensioner";
+$Title = "Redigera bokrecensioner";
 
 // förbered variabler som används i formuläret
-//  $book_id = $_POST['book_id'];
 $title = "";
 $author = "";
 $year_published = "";
@@ -75,15 +74,18 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['delete'])) {
 
 // för att redigera en bookrecension används en GET request där id framgår, ex id=2
 if ($_SERVER['REQUEST_METHOD'] === "GET") {
-    // $book_id = isset($_GET['book_id']) ? $_GET['book_id'] : 0;
-    // $book_id = $_GET['book_id'];
-    $user_id = $_SESSION['user_id'];
+    $book_id = isset($_GET['book_id']) ? $_GET['book_id'] : 0;
+    $title = isset($_GET['title']) ? $_GET['title'] : '';
+    $author = isset($_GET['author']) ? $_GET['author'] : '';
+    $year_published = isset($_GET['year_published']) ? $_GET['year_published'] : '';
+    $review = isset($_GET['review']) ? $_GET['review'] : '';
 
     //     // / Steg 2: Kör en fråga för att hämta data från "book"-tabellen
     $sql = "SELECT * FROM `book` WHERE user_id = '{$_SESSION['user_id']}'";
 
     // använd databaskopplingen för att hämta data
     $result = $pdo->prepare($sql);
+    $result->bindParam(':book_id', $book_id, PDO::PARAM_INT);
     $result->execute();
 
     if ($result) {
@@ -97,9 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 
             foreach ($rows as $row) {
                 echo '<tr>';
-                echo '<td>' . '<a href="book_edit.php?book_id=' . $row['book_id'] . '" ';
-                echo '<td>' . $row['title'] . '</td>';
-                echo '</a>' . '</td>';
+                echo '<td><a href="book_edit.php?book_id=' . $row['book_id'] . '">' . $row['title'] . '</a></td>';
                 echo '<td>' . $row['author'] . '</td>';
                 echo '<td>' . $row['year_published'] . '</td>';
                 echo '<td>' . $row['review'] . '</td>';
@@ -108,10 +108,11 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
             }
             echo '</table>';
         } else {
-            echo 'No rows found.';
+
+            echo 'No books found.';
         }
     } else {
-        echo 'Query failed.';
+        echo 'No books found';
     }
 }
 
@@ -139,7 +140,9 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
     </h1>
 
     <?php
-    if ($row) {
+    if ($row && isset($_GET['book_id'])) {
+
+
         ?>
 
         <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
@@ -147,36 +150,39 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
                 <hr>
                 <label for="title">title</label>
                 <hr>
-                <input type="text" name="title" id="title" value="<?= $row['title'] ?>" required minlength="2"
+                <input type="text" name="title" id="title" value="<?= isset($title) ? $title : '' ?>" required minlength="2"
                     maxlength="25">
                 <hr>
                 <label for="author">Author</label>
                 <hr>
-                <input type="text" name="author" id="author" value="<?= $row['author'] ?>" required minlength="2"
-                    maxlength="25">
+                <input type="text" name="author" id="author" value="<?= isset($author) ? $author : '' ?>" required
+                    minlength="2" maxlength="25">
                 <hr>
                 <label for="year_published">Year</label>
                 <hr>
-                <input type="string" name="year_published" id="year_published" value="<?= $row['year_published'] ?>"
-                    required minlength="2" maxlength="25">
+                <input type="string" name="year_published" id="year_published"
+                    value="<?= isset($year_published) ? $year_published : '' ?>" required minlength="2" maxlength="25">
                 <hr>
                 <label for="review">Review</label>
                 <hr>
-                <textarea name="review" id="review" value="<?= $row['review'] ?>" required minlength="2" maxlength="25"
-                    cols="20" rows="5"></textarea>
 
-                <hr>
+                <textarea name="review" id="review" required minlength="2" maxlength="25" cols="20"
+                    rows="5"><?= isset($review) ? $review : '' ?></textarea>
                 <!-- Include the book_id and user_id as hidden input fields -->
-                <input type="hidden" name="book_id" value="<?= $row['book_id'] ?>">
+                <input type="text" name="book_id" value="<?= $_GET['book_id'] ?>">
                 <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
             </p>
             <p>
                 <hr>
-                <input type="submit" value="update" name="update">
-                <hr>
-                <input type="submit" value="delete" name="delete">
-
+                <input type="submit" value="Uppdatera" name="update" class="button">
             </p>
+
+        </form>
+
+        <!-- Delete knappen utanför formuläret-->
+        <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
+            <input type="hidden" name="book_id" value="<?= $_GET['book_id'] ?>">
+            <input type="submit" value="Ta bort" name="delete" class="button1">
         </form>
 
         <?php

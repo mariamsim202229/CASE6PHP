@@ -4,7 +4,6 @@
     <div class="usernamedisplay">
         <?= isset($_SESSION['username']) ? $_SESSION['username'] : ""; ?>
 
-
     </div>
     <nav>
         <div>
