@@ -30,15 +30,10 @@ $user_id = $_SESSION['user_id'];
 // gör en POST-förfrågan
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
-    // print_r2("Metoden post används...");
-
-    // global array $_POST innehåller olika fält som finns i formuläret
-    // print_r2($_POST);
-
     $title = trim($_POST['title']);
     $author = trim($_POST['author']);
-    $year_published = trim ($_POST['year_published']);
-    $review =trim ($_POST['review']);
+    $year_published = trim($_POST['year_published']);
+    $review = trim($_POST['review']);
     $created_at = date('Y-m-d H:i:s'); //  Use the current datetime
     $user_id = $_SESSION['user_id'];
 
@@ -105,15 +100,15 @@ $rows = $result->fetchAll();
                 <hr>
                 <label for="author">Author</label>
                 <hr>
-                <input type="text" name="author" id="author">
+                <input type="text" name="author" id="author" required minlength="2" maxlength="25">
                 <hr>
                 <label for="year_published"> Year published</label>
                 <hr>
-                <input type="string" name="year_published" id="year_published">
+                <input type="string" name="year_published" id="year_published" required minlength="4" maxlength="4" >
                 <hr>
                 <label for="review">Review</label>
                 <hr>
-                <textarea name="review" id="review" cols="30" rows="10"></textarea>
+                <textarea name="review" id="review" cols="30" rows="10" required minlength="2" maxlength="50"></textarea>
                 <hr>
                 <!-- för att koppla en användare till tabellen används ett dolt fält med användarens id -->
                 <input type="hidden" name="book_id" id="book_id">

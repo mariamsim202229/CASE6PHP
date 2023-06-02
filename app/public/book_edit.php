@@ -161,15 +161,16 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
                 <label for="year_published">Year</label>
                 <hr>
                 <input type="string" name="year_published" id="year_published"
-                    value="<?= isset($year_published) ? $year_published : '' ?>" required minlength="2" maxlength="25">
+                    value="<?= isset($year_published) ? $year_published : '' ?>" required minlength="4" maxlength="4" >
                 <hr>
                 <label for="review">Review</label>
                 <hr>
 
-                <textarea name="review" id="review" required minlength="2" maxlength="25" cols="20"
+                <textarea name="review" id="review" required minlength="2" maxlength="50" cols="20"
                     rows="5"><?= isset($review) ? $review : '' ?></textarea>
-                <!-- Include the book_id and user_id as hidden input fields -->
-                <input type="text" name="book_id" value="<?= $_GET['book_id'] ?>">
+
+                <!-- Inkludera book_id och user_id som dolda inputfält -->
+                <input type="hidden" name="book_id" value="<?= $_GET['book_id'] ?>">
                 <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
             </p>
             <p>
