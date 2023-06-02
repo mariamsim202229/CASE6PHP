@@ -17,7 +17,7 @@ include "_includes/global-functions.php";
 setup_book($pdo);
 
 // Variabler i php börjar med dollartecken
-$Title = "BOOK REVIEW";
+// $Title = "BOOK REVIEW";
 
 // Förbereder variabler som kommer att användas i formuläret
 $title = "";
@@ -25,29 +25,49 @@ $author = "";
 $year_published = "";
 $review = "";
 $created_at = date('Y-m-d H:i:s');
-$user_id = $_SESSION['user_id'];
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
 
 // gör en POST-förfrågan
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
+    $book_id = isset($_POST['book_id']) ? $_POST['book_id'] : '';
+    $title = isset($_POST['title']) ? trim($_POST['title']) : '';
+    $author = isset($_POST['author']) ? trim($_POST['author']) : '';
+    $year_published = isset($_POST['year_published']) ? trim($_POST['year_published']) : '';
+    $review = isset($_POST['review']) ? trim($_POST['review']) : '';
+    $created_at = date('Y-m-d H:i:s'); // Använd aktuell datumtid
+    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
 
-    $title = trim($_POST['title']);
-    $author = trim($_POST['author']);
-    $year_published = trim($_POST['year_published']);
-    $review = trim($_POST['review']);
-    $created_at = date('Y-m-d H:i:s'); //  Use the current datetime
-    $user_id = $_SESSION['user_id'];
 
-    // kontrollera att minst 2 tecken finns i fältet för book_id
+
+    // kontrollera att minst 2 tecken finns i fältet för "title" och "author"
+
+    if (strlen($title) < 2 || strlen($author) < 2) {
+        // Visa ett felmeddelande eller vidta lämpliga åtgärder
+        echo
+            "Titel och författare måste ha en minsta längd på 2 tecken.";
+
+        // Du kanske vill omdirigera användaren tillbaka till formuläret eller visa ett felmeddelande
+        exit;
+    }
+
     if (isset($_SESSION['username'])) {
 
         // spara till databasen
-        $sql = "INSERT INTO book (title, author, year_published, review, created_at, user_id) VALUES ('$title', '$author', '$year_published', '$review', '$created_at', $user_id)";
-        print_r2($sql);
-
+        $sql = "INSERT INTO book (title, author, year_published, review, created_at, user_id) VALUES (?, ?, ?, ?, ?, ?)";
+        // print_r2($sql);
         // använd databaskopplingen för att spara till tabellen i databasen
-        $result = $pdo->exec($sql);
+        $result = $pdo->prepare($sql);
+        $result->execute([$title, $author, $year_published, $review, $created_at, $user_id]);
+
+
+        // Omdirigera till en MIN SIDA eller visa framgångsmeddelande
+        header("Location: book_edit.php");
+        exit;
+        // echo "Bookreview posted successfully";
     }
+
 }
+
 // visa eventuella böcker som finns i tabellen
 $sql = "SELECT book.book_id, book.title, book.author, book.year_published, book.review, book.created_at, user.username FROM book JOIN user ON book.user_id = user.user_id";
 
@@ -55,7 +75,6 @@ $sql = "SELECT book.book_id, book.title, book.author, book.year_published, book.
 $result = $pdo->prepare($sql);
 $result->execute();
 $rows = $result->fetchAll();
-
 ?>
 
 <!DOCTYPE html>
@@ -80,7 +99,7 @@ $rows = $result->fetchAll();
     </style>
 
     <h1>
-        <?= $Title ?>
+        Skapa en bokrecension
     </h1>
 
     <?php
@@ -89,24 +108,24 @@ $rows = $result->fetchAll();
     
     if (isset($_SESSION['user_id'])) {
         ?>
-        <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
+        <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post" class="form1">
 
             <p>
                 <hr>
-                <label for="title">Book title</label>
+                <label for="title">  <b> BOOK TITLE </b></label>
                 <hr>
                 <input type="text" name="title" id="title" required minlength="2" maxlength="25">
 
                 <hr>
-                <label for="author">Author</label>
+                <label for="author"> <b> AUTHOR </b></label>
                 <hr>
                 <input type="text" name="author" id="author" required minlength="2" maxlength="25">
                 <hr>
-                <label for="year_published"> Year published</label>
+                <label for="year_published"><b> YEAR PUBLISHED </b> </label>
                 <hr>
-                <input type="string" name="year_published" id="year_published" required minlength="4" maxlength="4" >
+                <input type="string" name="year_published" id="year_published" required minlength="4" maxlength="4">
                 <hr>
-                <label for="review">Review</label>
+                <label for="review"><b> REVIEW </b></label>
                 <hr>
                 <textarea name="review" id="review" cols="30" rows="10" required minlength="2" maxlength="50"></textarea>
                 <hr>

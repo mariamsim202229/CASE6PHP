@@ -31,14 +31,16 @@ setup_user($pdo);
     <hr>
 
     <!-- skapa formulär för registrering -->
-    <form action="" method="post" class="register">
+    <form action="" method="post" class="form1">
+        <hr>
         <label for="username">Username: </label>
         <input type="text" name="username" id="username">
         <hr>
         <label for="password">Password: </label>
         <input type="password" name="password" id="password">
+        <hr>
 
-        <button type="submit">Register</button>
+        <button type="submit" class="button">Register</button>
     </form>
 
     <?php

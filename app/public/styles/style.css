@@ -1,62 +1,78 @@
 /* Styles for screens with a maximum width of 600px */
 @media (max-width: 600px) {
-    /* CSS rules for mobile devices */
+    body {
+        font-size: 15px;
+        background-color: aqua;
+    }
 }
 
 header {
-    background-color: #ffc0cb;
-    font-size: 20px;
-    height: fit-content;
+    background-color: hotpink;
+    height: 200px;
     font-family: fantasy;
     border: 1px;
     color: white border 2px solid;
-    padding: 20px;
+    padding: 10px;
+    max-width: 600px;
+    text-align: left;
 }
 
 footer {
-    background-color: darkseagreen;
+    background-color: violet;
     font-size: 20px;
     font-family: fantasy;
-}
-
-body {
-    background-color: #ffa07a;
+    justify-items: center;
+    text-align: center;
     max-width: 600px;
 }
 
+body {
+    background-color: lightpink
+        /* max-width: 600px; */
+}
+
 label {
-    background-color: #ff8c00;
-    border: 2px solid;
-    border-radius: 10px;
-    font-size: 28px;
+    border: 1px solid white;
+    background-color: pink;
+    font-size: 25px;
+    padding: 8px;
+    border-radius: 12px;
+    color: darkorchid;
     font-family: fantasy;
-    margin-left: 15%;
     width: 100px;
-    padding: 5px;
     height: fit-content;
+    font-weight: bold;
+    text-decoration: wavy;
+}
+
+.form1 {
+    background-color: hotpink;
+    text-align: left;
+    max-width: 450px;
+    padding: 5px;
+
 }
 
 input {
     border-radius: 20px;
     background-color: pink;
-    width: 300px;
-    margin-left: 15%;
-    height: 40px;
+    width: 400px;
+    height: 50px;
     font-family: fantasy;
-}
-
-nav {
-    font-family: fantasy;
-    margin-left: 50px;
+    border: 2px solid white;
 
 }
 
 a {
-    border: 1px solid white;
-    background-color: darkorange;
+    border: 2px solid white;
+    background-color: pink;
     font-size: 25px;
-    padding: 10px;
-    color: black;
+    padding: 8px;
+    border-radius: 12px;
+    color: darkorchid;
+    justify-items: left;
+    font-weight: bolder;
+    font-family: fantasy;
 }
 
 hr {
@@ -65,16 +81,17 @@ hr {
 }
 
 .button {
-    background-color: darkseagreen;
+    background-color: rgb(206, 158, 222);
     font-size: 28px;
     font-family: fantasy;
     height: fit-content;
     width: 150px;
     padding: 5px;
+    border-radius: 12px;
 }
 
 .button1 {
-    background-color: tomato;
+    background-color: rgb(219, 159, 167);
     font-size: 28px;
     font-family: fantasy;
     height: fit-content;
@@ -84,44 +101,51 @@ hr {
 
 h1 {
     font-family: fantasy;
-    margin-left: 20%;
-    color: purple;
-    background-color: pink;
+    color: darkorchid;
     background-size: auto;
-    width: 250px;
+    width: fit-content;
     font-style: italic;
     font-size: 30px;
+    text-align: left;
+    font-weight: bold;
 }
 
 h2 {
-    margin-left: 80px;
     color: darkslateblue;
 }
 
 textarea {
     background-color: pink;
-    margin-left: 15%;
     border-radius: 20px;
-    width: 300px;
+    width: 400px;
+    border: 2px solid white;
 }
 
 table {
-    border: 1px solid;
     font-size: larger;
-    background-color: pink;
-    width: 600px;
+    background-color: hotpink;
+    max-width: 600px;
+    padding: 10px;
 }
 
-td {
-    border: 1px solid;
-    padding: 10px;
-    width: 50px;
+td,
+tr {
+    border: 1px solid darkorchid;
+    padding: 5px;
+    width: fit-content;
+    text-align: center;
+    color: black;
+    font-family: fantasy;
+    font-weight: bold;
+    font-size: x-large;
+    height: fit-content;
+    background-color: hotpink;
 }
 
 tr {
-    font-family: fantasy;
-    border-right: 1px solid;
+    border-right: 1px darkorchid;
 }
+
 
 .button3 {
     font-size: larger;
@@ -159,8 +183,10 @@ tr {
 }
 
 .usernamedisplay {
-    margin-left: 220px;
+
     font-size: 30px;
     font-family: fantasy;
-    color: darkorchid;
+    color: azure;
+    width: fit-content;
+    padding: 5px;
 }

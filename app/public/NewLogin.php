@@ -30,7 +30,8 @@ setup_user($pdo);
     <h1>Login</h1>
 
     <!-- Skapa formulär för att logga in -->
-    <form action="" method="post" class="loginform">
+    <form action="" method="post" class="form1">
+        <hr>
         <label for="username">Username: </label>
         <br>
         <input type="text" name="username" id="username">
@@ -38,7 +39,8 @@ setup_user($pdo);
         <label for="password">Password: </label>
         <br>
         <input type="password" name="password" id="password">
-        <button type="submit">Login</button>
+        <hr>
+        <button type="submit" class="button">Login</button>
     </form>
 </body>
 

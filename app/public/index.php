@@ -1,7 +1,7 @@
 <?php
 
 // en variabel i php inleds med dollartecken
-$Title = "Case-6-PHP";
+$homepageTitle = "Case-6-PHP";
 
 ?>
 

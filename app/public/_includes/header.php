@@ -1,23 +1,19 @@
 <header>
-    <h2> CASE 6 PHP BOOKREVIEW </h2>
-
-    <div class="usernamedisplay">
-        <?= isset($_SESSION['username']) ? $_SESSION['username'] : ""; ?>
-
-    </div>
     <nav>
-        <div>
+        <hr>
             <a href="index.php"> <b>Startsida</b></a>
-            | <a href="register.php">Registera</a>
-            | <a href="book.php"> <b>Bokrecension</b> </a>
-        </div>
-
-        <hr>
-        <hr>
-        <div class="menu2">
+            | <a href="register.php"><b>Registrera </b> </a>
+            | <a href="book.php"> <b>Bokrecension</b> </a> 
+            <hr>
+            <br>
             | <a href="book_edit.php"> <b>Min sida</b> </a>
-            | <a href="NewLogin.php">Logga in</a>
+            | <a href="NewLogin.php"> <b> Logga in </b> </a>
             | <a href="logout.php"> <b>Logga ut</b></a>
-        </div>
+            <hr>
+   
     </nav>
+<div class="usernamedisplay">
+    Inloggad användare:
+    <?= isset($_SESSION['username']) ? $_SESSION['username'] : ""; ?>
+</div>
 </header>
