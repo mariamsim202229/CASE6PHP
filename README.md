@@ -27,10 +27,7 @@ Follow these steps:
 Below is a screenshot demonstrating the App BOOKREVIEW in action:
 
 
-![App BOOKREVIEW Screenshot](../localhost_8088_register.php-min.png)
-
-
-![SCREENSHOT](../localhost_8088_register.php-min.png)
+![APP BOOKREVIEW SCREENSHOT](app/public/images/localhost_8088_register.php-min.png)
 
 
 6. Usage
