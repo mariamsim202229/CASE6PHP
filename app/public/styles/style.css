@@ -8,7 +8,7 @@
 
 header {
     background-color: hotpink;
-    height: 200px;
+    height: fit-content;
     font-family: fantasy;
     border: 1px;
     color: white border 2px solid;

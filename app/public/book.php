@@ -112,7 +112,7 @@ $rows = $result->fetchAll();
 
             <p>
                 <hr>
-                <label for="title">  <b> BOOK TITLE </b></label>
+                <label for="title"> <b> BOOK TITLE </b></label>
                 <hr>
                 <input type="text" name="title" id="title" required minlength="2" maxlength="25">
 
