@@ -23,16 +23,8 @@ Follow these steps:
 [Step 3] Search for localhost.8088 on the web server. Now you may see the application.
 ...
 5. Screenshots
-
-Below is a screenshot demonstrating the App BOOKREVIEW in action:
-
-
-![APP BOOKREVIEW SCREENSHOT](app/public/images/localhost_8088_register.php-min.png)
-
-
 6. Usage
 
-One the application is installed or opened in the web werver, the user should register by its username and password. One registered , the user can log in on the LOGIN page. it will then be possible to make a bookreview and to save, edit, or delete it. In order to update or to delete a bookreview from the table, the user must click on the link that the title of book has and to click on the delete button or to change the bookreview with a form that is being displayed on the page, by clicking on the update button in the end. 
+Once the application is installed or opened in the web werver, the user should register by its username and password. Once registered , the user can log in on the LOGIN page. it will then be possible to make a bookreview and to save, edit, or delete it. In order to update or to delete a bookreview from the table, the user must click on the link that the title of book has and to click on the delete button or to change the bookreview with a form that is being displayed on the page, by clicking on the update button in the end. 
 
-7. Contact
-If you have any questions or feedback, feel free to contact us. We would love to hear from you!
+

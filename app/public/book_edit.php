@@ -42,15 +42,15 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['update'])) {
     $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
 
     // Uppdatera bokinformationen i databasen
-    $sql = "UPDATE `book` SET `title` = :title, `author` = :author, year_published = :year_published, `review` = :review, `created_at` = :created_at WHERE book_id = :book_id";
+    $sql = "UPDATE `book` SET `title` = :title, `author` = :author, `year_published` = :year_published, `review` = :review, `created_at` = :created_at WHERE `book_id` = :book_id";
     $result = $pdo->prepare($sql);
     // Parameteriserade frågor
-    $result->bindParam(':title', $title);
-    $result->bindParam(':author', $author);
-    $result->bindParam(':year_published', $year_published);
-    $result->bindParam(':review', $review);
-    $result->bindParam(':created_at', $created_at);
-    $result->bindParam(':book_id', $book_id);
+    $result->bindValue(':title', $title, PDO::PARAM_STR);
+    $result->bindValue(':author', $author, PDO::PARAM_STR);
+    $result->bindValue(':year_published', $year_published, PDO::PARAM_INT);
+    $result->bindValue(':review', $review, PDO::PARAM_STR);
+    $result->bindValue(':created_at', $created_at, PDO::PARAM_STR);
+    $result->bindValue(':book_id', $book_id, PDO::PARAM_INT);
     $result->execute();
 
     // Kontrollera om uppdateringen lyckades
@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
     // använd databaskopplingen för att hämta data
     $result = $pdo->prepare($sql);
     // Parameteriserade frågor
-    $result->bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+    $result->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
     $result->execute();
 
     if ($result) {
@@ -157,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
                 <hr>
                 <label for="title">title</label>
                 <hr>
-                <input type="text" name="title" id="title" value="<?= isset($title) ? $title : '' ?>" required minlength="2"
+                <input type="text" name="title" id="title" value="<?= isset($title) ? $title : '' ?>"required minlength="2"
                     maxlength="25">
                 <hr>
                 <label for="author">Author</label>
