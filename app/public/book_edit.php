@@ -149,7 +149,29 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
     </h1>
 
     <?php
+
     if ($row && isset($_GET['book_id'])) {
+        $book_id = $_GET['book_id'];
+        $title = '';
+        $author = '';
+        $year_published = '';
+        $review = '';
+
+        // Hämta den specifika boken baserat på book_id och user_id
+        $sql = "SELECT * FROM `book` WHERE book_id = :book_id AND user_id = :user_id";
+        $result = $pdo->prepare($sql);
+        $result->bindValue(':book_id', $book_id, PDO::PARAM_INT);
+        $result->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $result->execute();
+
+        if ($result->rowCount() == 1) {
+            $book = $result->fetch;
+            $title = $book['title'];
+            $author = $book['author'];
+            $year_published = $book['year_published'];
+            $review = $book['review'];
+        }
+
         ?>
 
         <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post" class="form1">
@@ -157,24 +179,22 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
                 <hr>
                 <label for="title">title</label>
                 <hr>
-                <input type="text" name="title" id="title" value="<?= isset($title) ? $title : '' ?>"required minlength="2"
-                    maxlength="25">
+                <input type="text" name="title" id="title" value="<?= $title ?>" required minlength="2" maxlength="25">
                 <hr>
                 <label for="author">Author</label>
                 <hr>
-                <input type="text" name="author" id="author" value="<?= isset($author) ? $author : '' ?>" required
-                    minlength="2" maxlength="25">
+                <input type="text" name="author" id="author" value="<?= $author ?>" required minlength="2" maxlength="25">
                 <hr>
                 <label for="year_published">Year</label>
                 <hr>
-                <input type="string" name="year_published" id="year_published"
-                    value="<?= isset($year_published) ? $year_published : '' ?>" required minlength="4" maxlength="4">
+                <input type="string" name="year_published" id="year_published" value="<?= $year_published ?>" required
+                    minlength="4" maxlength="4">
                 <hr>
                 <label for="review">Review</label>
                 <hr>
 
                 <textarea name="review" id="review" required minlength="2" maxlength="50" cols="20"
-                    rows="5"><?= isset($review) ? $review : '' ?></textarea>
+                    rows="5"><?= $review ?></textarea>
 
                 <!-- Inkludera book_id och user_id som dolda inputfält -->
                 <input type="hidden" name="book_id" value="<?= $_GET['book_id'] ?>">
