@@ -165,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
         $result->execute();
 
         if ($result->rowCount() == 1) {
-            $book = $result->fetch;
+            $book = $result->fetch();
             $title = $book['title'];
             $author = $book['author'];
             $year_published = $book['year_published'];
